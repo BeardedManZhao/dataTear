@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="FIOZHAO:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/FIOZHAO_jar</output-path>
+    <root id="archive" name="FIO.jar">
+      <element id="module-output" name="FIO" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/log4j/log4j/1.2.17/log4j-1.2.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/commons-io/commons-io/2.6/commons-io-2.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/org/xerial/snappy/snappy-java/1.1.2.6/snappy-java-1.1.2.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/org/slf4j/slf4j-log4j12/1.7.30/slf4j-log4j12-1.7.30.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
