@@ -4,7 +4,10 @@
   Split into data blocks,In this format, efficient reading can be realized,Avoid unnecessary data reading operations.
  - Example of use
  
-  下面是针对dataTear文件的读写进行的一个示例，master就是数据输出组件，Reader就是数据读取组件，这俩组件的超接口时同一个，灵活性比较强大！具体使用方式请参阅下面的main函数代码文档!
+  Chinese：下面是针对dataTear文件的读写进行的一个示例，master就是数据输出组件，Reader就是数据读取组件，这俩组件的超接口时同一个，灵活性比较强大！具体使用方式请参阅下面的main函数代码文档!
+  
+  
+  English：The following is an example of reading and writing the dataTear file. The master is the data output component, and the Reader is the data reading component. The hyperinterfaces of these two components are the same, which is more flexible! Please refer to the following main function code document for specific usage!
 
   	public static void main(String[] args) throws IOException, SQLException {
   
