@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: com.sun.jersey:jersey-client:1.19">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/com/sun/jersey/jersey-client/1.19/jersey-client-1.19.jar!/" />
+      <root url="jar://E:/RunTime/MAVEN/MAVEN_BASE/com/sun/jersey/jersey-client/1.19/jersey-client-1.19.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/com/sun/jersey/jersey-client/1.19/jersey-client-1.19-javadoc.jar!/" />
+      <root url="jar://E:/RunTime/MAVEN/MAVEN_BASE/com/sun/jersey/jersey-client/1.19/jersey-client-1.19-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../../RunTime/MAVEN/MAVEN_BASE/com/sun/jersey/jersey-client/1.19/jersey-client-1.19-sources.jar!/" />
+      <root url="jar://E:/RunTime/MAVEN/MAVEN_BASE/com/sun/jersey/jersey-client/1.19/jersey-client-1.19-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

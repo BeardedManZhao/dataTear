@@ -4,8 +4,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
+ * <h2>introduce</h2>
+ * <hr>
+ * <h3>中文</h3>
  * 自定义数据输出组件的实现类，会被DataTear调用，使用者可以通过该接口将数据输出类插入到DataTear中
  * 如果DataTear组件的输出模式是UDF，那么这个方法将会被调用
+ * <br>
+ *
+ * <h3>English</h3>
+ * The implementation class of the custom data output component will be called by DataTear. Users can insert the data output class into DataTear through this interface.
+ * If the output mode of the DataTear component is UDF, this method will be called
  */
 public interface W_UDF {
     /**

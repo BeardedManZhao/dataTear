@@ -1,7 +1,7 @@
 package zhao.io.dataTear.atzhaoPublic;
 
 /**
- * 产品包装接口
+ * 产品包装接口 product packaging interface
  *
  * @param <T> 产品内部类型
  */

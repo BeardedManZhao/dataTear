@@ -7,8 +7,14 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
+ * <h2>introduce</h2>
+ * <hr>
+ * <h3>中文</h3>
  * 根据properties中配置的路径把jar和配置文件加载到classpath中。<br>
- * 此工具类加载类时使用的是SystemClassLoader，如有需要对加载类进行校验，请另外实现自己的加载器 *
+ * 此工具类加载类时使用的是SystemClassLoader，如有需要对加载类进行校验，请另外实现自己的加载器
+ * <h3>English</h3>
+ * Load the jar and configuration file into the classpath according to the path configured in properties.
+ * This tool class uses SystemClassLoader when loading classes. If you need to verify the loaded class, please implement your own loader.
  */
 public class ExtClasspathLoader {
 //    private static final Logger LOG = LoggerFactory.getLogger(ExtClasspathLoader.class);
