@@ -61,11 +61,11 @@
       public static void main(String[] args) throws IOException {
           BasicConfigurator.configure();
         // 配置数据输出类
-        DTMaster dtMaster = new DTMaster(outPath -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).writeStream(outPath))
-                .WriterFormat(DataOutputFormat.UDT) // 注意！！！这里如果不设置UDF，那么将会自动的使用 LOCAL_TEXT 模式写数据
+        DTMaster dtMaster = new DTMaster(null)
+                .WriterFormat(DataOutputFormat.built_in) // 注意！！！这里如果不设置UDF，那么将会自动的使用 LOCAL_TEXT 模式写数据
                 .setPrimaryNum(0)
-                .setIn_FilePath("C:\\Users\\4\\Desktop\\test.txt") // 设置被输出文件的NM路径
-                .setOUT_FilePath("C:\\Users\\4\\Desktop\\out")
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\数学建模\\附带文件\\test.txt") // 设置被转换文件的路径
+                .setOUT_FilePath("C:\\Users\\4\\Desktop\\数学建模\\out") // 设置转换之后的NM等文件的存储路径
                 .setSplitrex("\\s+");
         dtMaster.openStream();
         dtMaster.op_Data();
@@ -89,9 +89,11 @@
   
   Built in data output component, equivalent to data output mode of LOCAL_TEXT,In this mode, you can not load the data output component, but the disadvantage is that you can only use LOCAL in this mode_ TEXT mode for data output,The setting method is shown in the following figure.
  
- ![image](https://user-images.githubusercontent.com/113756063/191901640-7ad85a18-649b-43fb-9e51-03584781a21d.png)
+![image](https://user-images.githubusercontent.com/113756063/191903087-8d3e70d3-f25e-4a6a-a55d-153a2d7a4c1f.png)
+
  - UDF
 
  UDF is also a user-defined data output mode. In this mode, you must load a data output component when instantiating the DTMaster. The loading of this data component can be extracted from the algorithm library or directly implemented by yourself. The following is an example of calling the local GZIP data output component in the algorithm library.
- ![image](https://user-images.githubusercontent.com/113756063/191901908-7b342f0f-135a-4c23-88b3-2b4a9f2daf33.png)
+![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
+
 
