@@ -42,7 +42,7 @@
 
         Date date2 = new Date();
         // 通过RW将Reader实例化
-        Reader reader = new DTRead(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_TEXT).readStream(s)) // 实例化时，可以将外界的数据组件对接到本类中，也可以直接调用RW接口从算法库中提取数据组件
+        RW reader = new DTRead(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_TEXT).readStream(s)) // 实例化时，可以将外界的数据组件对接到本类中，也可以直接调用RW接口从算法库中提取数据组件
                 .setPrimaryCharacteristic(data -> true) // 设置数据主键描述，满足该条件的主键所在数据碎片将会被读取
                 .setUseMultithreading(true) // 设置是否使用同步读取
                 .setMaxOutTimeMS(10000) // 设置数据读取最大超时时间（毫秒），超出时间将会立刻停止数据的读取
