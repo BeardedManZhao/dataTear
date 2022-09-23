@@ -2,6 +2,15 @@
  - dataTear
   
   Split into data blocks,In this format, efficient reading can be realized,Avoid unnecessary data reading operations.
+  
+  - MAVEN dependent
+
+        <dependency>
+            <groupId>io.github.BeardedManZhao</groupId>
+            <artifactId>dataTear</artifactId>
+            <version>1.4-SNAPSHOT</version>
+        </dependency>
+  
  - Example of use
  
   Chinese：下面是针对dataTear文件的读写进行的一个示例，master就是数据输出组件，Reader就是数据读取组件，这俩组件的超接口是同一个，灵活性比较强大！具体使用方式请参阅下面的main函数代码文档!
