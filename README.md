@@ -61,7 +61,7 @@
 - The simplest API example
      
       public static void main(String[] args) throws IOException {
-          BasicConfigurator.configure();
+        BasicConfigurator.configure();
         // 配置数据输出类
         DTMaster dtMaster = new DTMaster(null)
                 .WriterFormat(DataOutputFormat.built_in) // 注意！！！这里如果不设置UDF，那么将会自动的使用 LOCAL_TEXT 模式写数据
