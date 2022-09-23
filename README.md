@@ -17,10 +17,11 @@
   
   
   English：The following is an example of reading and writing the dataTear file. The master is the data output component, and the Reader is the data reading component. The hyperinterfaces of these two components are the same, which is more flexible! Please refer to the following main function code document for specific usage!
-- Full API Example
-
-  	public static void main(String[] args) throws IOException, SQLException {
-  
+  - Full API Example
+ 
+ API calls here are relatively complete
+ 
+    public static void main(String[] args) throws IOException, SQLException {
         BasicConfigurator.configure();
         Date date = new Date();
         // 通过RW 将Master实例化
