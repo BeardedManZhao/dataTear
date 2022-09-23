@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * API调用示例：
  * <p>
- * RW rw = new DTMaster(OutPath -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_TEXT).writeStream(s)) // 实现的UDF，这里为了看起来简洁，使用了lambda的样式展示
+ * RW rw = new DTMaster(OutPath -》 RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_TEXT).writeStream(s)) // 实现的UDF，这里为了看起来简洁，使用了lambda的样式展示
  * <p>
  * .ReadFormat(DataSourceFormat.built_in) // 设置数据输入模式为内置
  * <p>
