@@ -17,6 +17,7 @@
   
   
   English：The following is an example of reading and writing the dataTear file. The master is the data output component, and the Reader is the data reading component. The hyperinterfaces of these two components are the same, which is more flexible! Please refer to the following main function code document for specific usage!
+- Full API Example
 
   	public static void main(String[] args) throws IOException, SQLException {
   
@@ -54,7 +55,33 @@
         System.err.println("ok !  读数据耗时：" + (new Date().getTime() - date2.getTime()) + "毫秒");
         System.err.println("源文件：" + reader.getSrcFile() + "\t创建时间：" + new Date(reader.getCreateDateMS()).toLocaleString());
         System.err.println("数据行数：" + reader.getDataString().split("\n").length);
-    }
+      }
+- The simplest API example
+     
+      public static void main(String[] args) throws IOException {
+          BasicConfigurator.configure();
+        // 配置数据输出类
+        DTMaster dtMaster = new DTMaster(outPath -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).writeStream(outPath))
+                .WriterFormat(DataOutputFormat.UDT) // 注意！！！这里如果不设置UDF，那么将会自动的使用 LOCAL_TEXT 模式写数据
+                .setPrimaryNum(0)
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\test.txt") // 设置被输出文件的NM路径
+                .setOUT_FilePath("C:\\Users\\4\\Desktop\\out")
+                .setSplitrex("\\s+");
+        dtMaster.openStream();
+        dtMaster.op_Data();
+        dtMaster.closeStream();
+
+        // 配置数据读取类
+        Reader reader = new DTRead(InPath -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_TEXT).readStream(InPath))
+                .setPrimaryCharacteristic((data) -> true)
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\数学建模\\out\\NameManager.NDT"); // 设置被读取文件的NM路径
+        reader.openStream();
+        reader.op_Data();
+        reader.closeStream();
+
+        System.out.println(reader.getDataString());
+      }
+    
  - DTMaster component output mode
  
  ![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
@@ -64,3 +91,7 @@
  
  ![image](https://user-images.githubusercontent.com/113756063/191901640-7ad85a18-649b-43fb-9e51-03584781a21d.png)
  - UDF
+
+ UDF is also a user-defined data output mode. In this mode, you must load a data output component when instantiating the DTMaster. The loading of this data component can be extracted from the algorithm library or directly implemented by yourself. The following is an example of calling the local GZIP data output component in the algorithm library.
+ ![image](https://user-images.githubusercontent.com/113756063/191901908-7b342f0f-135a-4c23-88b3-2b4a9f2daf33.png)
+
