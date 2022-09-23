@@ -55,3 +55,12 @@
         System.err.println("源文件：" + reader.getSrcFile() + "\t创建时间：" + new Date(reader.getCreateDateMS()).toLocaleString());
         System.err.println("数据行数：" + reader.getDataString().split("\n").length);
     }
+ - DTMaster component output mode
+ 
+ ![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
+ - built_in
+  
+  Built in data output component, equivalent to data output mode of LOCAL_TEXT,In this mode, you can not load the data output component, but the disadvantage is that you can only use LOCAL in this mode_ TEXT mode for data output,The setting method is shown in the following figure.
+ 
+ ![image](https://user-images.githubusercontent.com/113756063/191901640-7ad85a18-649b-43fb-9e51-03584781a21d.png)
+ - UDF
