@@ -5,12 +5,24 @@
   Split into data blocks,In this format, efficient reading can be realized,Avoid unnecessary data reading operations.
   
   - MAVEN dependent
-
-        <dependency>
-            <groupId>io.github.BeardedManZhao</groupId>
-            <artifactId>dataTear</artifactId>
-            <version>1.4-SNAPSHOT</version>
-        </dependency>
+  
+    Maven repository url:  https://s01.oss.sonatype.org/content/repositories/snapshots
+    
+        <repositories>
+            <repository>
+                <id>a</id>
+                <name>sonatype</name>
+                <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            </repository>
+        </repositories>
+    
+        <dependencies>
+            <dependency>
+                <groupId>io.github.BeardedManZhao</groupId>
+                <artifactId>dataTear</artifactId>
+                <version>1.4-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
   
  - Example of use
  
