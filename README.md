@@ -107,7 +107,7 @@
  ![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
  - built_in
   
-  Built in data output component, equivalent to data output mode of LOCAL_TEXT,In this mode, you can not load the data output component, but the disadvantage is that you can only use LOCAL in this mode_ TEXT mode for data output,The setting method is shown in the following figure.
+  The mode of using the built-in data output component is equivalent to the data output component of "LOCAL_TEXT". In this mode, you do not need to load the data output component. However, the disadvantage is that when using the built-in data component output mode, you can only use "LOCAL_TEXT" for data output. The setting method is shown in the following figure.
  
 ![image](https://user-images.githubusercontent.com/113756063/191903087-8d3e70d3-f25e-4a6a-a55d-153a2d7a4c1f.png)
 
