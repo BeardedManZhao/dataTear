@@ -1,7 +1,7 @@
 package zhao.io.dataTear.dataContainer;
 
 /**
- * String数据块的类
+ * String数据操作读写容器的拓展类 Extended class for data manipulation read and write containers
  */
 public class RWString implements RWData<String> {
 

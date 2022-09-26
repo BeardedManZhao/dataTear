@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 
 /**
  * @author 赵凌宇
- * 写DT数据库的组件，被操作的数据库需要是符合JDBC协议的。
+ * 写DT文件到数据库的组件，被操作的数据库需要是符合JDBC协议的。
+ * <p>
+ * The component that writes the DT file to the database, the operated database needs to conform to the JDBC protocol.
  */
 public class DataBaseWriter extends Writer {
 

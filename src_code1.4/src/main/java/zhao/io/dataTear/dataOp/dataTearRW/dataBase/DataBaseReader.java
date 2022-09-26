@@ -14,7 +14,9 @@ import java.util.Arrays;
 
 /**
  * @author 赵凌宇
- * 从数据库中读取DT数据库的组件，被读取的数据库需要是符合JDBC协议的。
+ * 从数据库中读取DT数据库的组件，被读取的数据库需要是符合JDBC协议的，实现了使用DT的方式将数据读取进来的操作
+ * <p>
+ * The component that reads the DT database from the database, the database to be read needs to conform to the JDBC protocol, and the operation of reading data in the way of DT is realized.
  */
 public class DataBaseReader extends Reader {
     String TableName;
@@ -27,19 +29,23 @@ public class DataBaseReader extends Reader {
     private int RowCount;
 
     /**
-     * 开始建造本组件
+     * 开始建造本组件，这个方法是开始own object, which can be used for chain programming式设置数据读取组件的第一步
+     * <p>
+     * Start building this component, this method is the first step to start chaining setup data read components.
      *
-     * @return 链
+     * @return own object, which can be used for chain programming
      */
     public static DataBaseReader builder() {
         return new DataBaseReader();
     }
 
     /**
-     * 查询列设置，如果不设置将代表所有列都查询
+     * 查询列设置，如果不设置将代表所有列都查询。
+     * <p>
+     * Query column settings, if not set, all columns will be queried.
      *
-     * @param select 需要被查询的列
-     * @return 链
+     * @param select 需要被查询的列  Columns to be queried
+     * @return own object, which can be used for chain programming
      */
     public DataBaseReader select(String... select) {
         this.select = Arrays.stream(select).reduce((x, y) -> x + ", " + y).orElse("*");
@@ -48,6 +54,8 @@ public class DataBaseReader extends Reader {
 
     /**
      * @return 本DT文件的源文件名称
+     * <p>
+     * The source file name of this DT file
      */
     @Override
     public String getSrcFile() {
@@ -56,6 +64,8 @@ public class DataBaseReader extends Reader {
 
     /**
      * @param srcFile 为子类提供的源文件路径设置方法
+     *                <p>
+     *                Set method for source file path provided by subclass
      */
     @Override
     protected void setSrcFile(String srcFile) {
@@ -63,9 +73,13 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * 将读取到的数据加载到内存的方法，由内部调用
+     * 将读取到的数据加载到内存的方法，由内部调用。
+     * <p>
+     * The method for loading the read data into memory, which is called internally.
      *
-     * @param datas Byte数组
+     * @param datas Byte数组，是数据的byte数组形式
+     *              <p>
+     *              Byte array, which is the byte array form of the data
      */
     @Override
     protected void setByteArray(byte[] datas) {
@@ -73,7 +87,9 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @return 数据库中被读取表的一些信息
+     * @return 数据库中被读取表的一些信息，同样返回的还是源信息，只是这个的源就是数据库
+     * <p>
+     * Some information of the read table in the database also returns the source information, but the source of this is the database.
      */
     @Override
     public String getIn_FilePath() {
@@ -85,11 +101,17 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * 来源于接口的调用
+     * 设置读取的表信息，和from 方法效果相同，设置组件读取的数据表。
+     * <p>
+     * Set the read table information, which has the same effect as the "from" method, setting the data table read by the component.
      *
-     * @param in_FilePath 这里是来源于哪个表
-     * @return MySQL数据读取组件
+     * @param in_FilePath 数据是来源于哪个表，这个参数就是表名。
+     *                    <p>
+     *                    Which table the data comes from, this parameter is the table name.
+     * @return own object, which can be used for chain programming
      * @deprecated 不建议使用，可以直接使用from方法, 因为该方法与from中的实现是一致的，同时这个方法不允许使用where等处理计算
+     * <p>
+     * It is recommended to use the "from" method directly, because this method is consistent with the implementation in "from", and this method does not allow processing calculations such as where.
      */
     @Override
     @Deprecated
@@ -98,8 +120,12 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @return Reader中包含的数据输入流 如果有设置过输入流的话
-     * @deprecated 本组件中不需要使用任何的外界数据流
+     * @return 如果有设置过输入流的话，返回Reader中包含的数据输入流，反之可能为null。
+     * <p>
+     * If the input stream has been set, return the data input stream contained in the Reader, otherwise it may be null.
+     * @deprecated 本组件中不需要使用任何的外界数据流。
+     * <p>
+     * This component does not need to use any external data flow.
      */
     @Override
     @Deprecated
@@ -108,9 +134,15 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @param inputStream 数据输入流设置
-     * @return 链
-     * @deprecated 本组件中不需要使用任何的外界数据流
+     * 设置数据输入组件，注意，本组件自身就实现了数据流功能，不需要向该组件中传入数据流。
+     * <p>
+     * Set the data input component. Note that this component itself implements the data flow function, and there is no need to pass data flow to this component.
+     *
+     * @param inputStream 数据输入流设置  Data input stream settings
+     * @return own object, which can be used for chain programming
+     * @deprecated 本组件中不需要使用任何的外界数据流，您即使设置了也不会被调用。
+     * <p>
+     * This component does not need to use any external data flow, even if you set it, it will not be called.
      */
     @Override
     @Deprecated
@@ -119,7 +151,9 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @return 本组件获取到的数据byte数组
+     * @return 本组件获取到的数据byte数组，注意，数据碎片的分割符是”,“，NM的分隔符是”=“。
+     * <p>
+     * The data byte array obtained by this component, note that the delimiter of the data fragment is ",", and the delimiter of NM is "=".
      */
     @Override
     public byte[] getDataArray() {
@@ -127,7 +161,9 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @return 本组件获取到的数据String形式返回
+     * @return 本组件获取到的数据，以"String"的数据类型返回数据，注意，数据碎片的分割符是”,“，NM的分隔符是”=“。
+     * <p>
+     * The data obtained by this component is returned to the data type of "String". Note that the delimiter of the data fragment is ",", and the delimiter of NM is "=".
      */
     @Override
     public String getDataString() {
@@ -135,8 +171,10 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @return 文件对象 失效的文件对象
+     * @return 文件对象 失效的文件对象 file object invalid file object
      * @deprecated 针对数据库连接，不需要使用组件的方式进行读取
+     * <p>
+     * For database connections, there is no need to use components to read
      */
     @Override
     @Deprecated
@@ -145,7 +183,7 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * @param in_File 文件对象
+     * @param in_File 数据输入文件对象 您不需要对该方法进行设置
      * @return 文件对象 失效的文件对象
      * @deprecated 针对数据库连接，不需要使用组件的方式进行读取
      */
@@ -232,10 +270,14 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * 注意 不会关闭connect对象，由调用者决定connect是否关闭
+     * 关闭”preparedStatement“注意 不会关闭connect对象，由调用者决定connect是否关闭，这是为了提高连接复用
+     * <p>
+     * Close "preparedStatement" Note that to connect object will not be closed, the caller decides whether to close to connect, this is to improve the connection multiplex.
      *
-     * @return 是否关闭成功
+     * @return 是否关闭成功  Is it closed successfully
      * @throws IOException 关闭失败可能抛出的异常
+     *                     <p>
+     *                     Exceptions that may be thrown on shutdown failures
      */
     @Override
     public boolean closeStream() throws IOException {
@@ -251,6 +293,7 @@ public class DataBaseReader extends Reader {
 
     /**
      * @return 被查询表的单元格数量
+     * The number of cells in the queried table
      */
     @Override
     public int available() {
@@ -258,10 +301,12 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * 设置数据来源于哪个表
+     * 设置数据来源于哪个表，和"SQL"语句中的"from"语法的使用基本一致
+     * <p>
+     * Set which table the data comes from, which is basically the same as the use of the "from" syntax in the "SQL" statement
      *
      * @param TableName 表名称
-     * @return 链
+     * @return own object, which can be used for chain programming
      */
     public DataBaseReader from(String TableName) {
         this.TableName = TableName;
@@ -269,10 +314,12 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * 设置数据库连接组件，便于连接数据库
+     * 设置数据库连接组件，便于连接数据库服务器
+     * <p>
+     * Set up database connection components to facilitate connection to the database server.
      *
      * @param connection 数据库连接组件
-     * @return 链
+     * @return own object, which can be used for chain programming
      */
     public DataBaseReader setConnection(Connection connection) {
         this.connection = connection;
@@ -280,11 +327,13 @@ public class DataBaseReader extends Reader {
     }
 
     /**
-     * 设置数据查询SQL额外语句
+     * 设置数据查询SQL的where子句，不需要包含where本身！
+     * <p>
+     * Set the where clause of data query SQL without including where itself!
      *
      * @param where where 关键字后面的语句，这里不需要带有where
-     *              例如：name = 'zhao' group by sex
-     * @return 链
+     *              such as：name = 'zhao' group by sex
+     * @return own object, which can be used for chain programming
      */
     public DataBaseReader where(String where) {
         this.where = where;
