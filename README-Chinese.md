@@ -2,11 +2,11 @@
 
  - dataTear
 
- Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary data reading operations..
+ 拆分成数据碎片去进行数据的管理，在这种格式下，可以实现高效读取，避免不必要的数据读取操作。
   
   - MAVEN dependent
   
-    Maven repository url:  https://s01.oss.sonatype.org/content/repositories/snapshots
+    Maven存储库 url:  https://s01.oss.sonatype.org/content/repositories/snapshots
     
         <repositories>
             <repository>
@@ -24,13 +24,13 @@
             </dependency>
         </dependencies>
   
- - Example of use
+ - 使用示例
  
-    The following is an example of reading and writing the dataTear file. The master is the data output component, and the Reader is the data reading component. The hyperinterfaces of these two components are the same, which is more flexible! The parameters can be set in chain mode. Of course, you can also set them step by step, providing strong flexibility. Please refer to the following main function code document for specific usage!
+   下面是针对dataTear文件的读写进行的一个示例，master就是数据输出组件，Reader就是数据读取组件，这俩组件的超接口是同一个，灵活性比较强大！针对参数的设置，可以采取链式，当然您也可以分步进行设置，提供了强大的灵活性。具体使用方式请参阅下面的main函数代码文档!
+
+  - 完整API的调用示例
  
-- Full API Example
- 
-    The API calls here are relatively complete, and the functions used are relatively comprehensive. You can use the following API calls for integrated development.
+   此处的API调用相对完整，使用到的功能时比较全面的，您可以按照下面的API调用去进行集成开发。
  
     public static void main(String[] args) throws IOException {
             BasicConfigurator.configure();
@@ -74,10 +74,9 @@
             return rw.openStream() && rw.op_Data() && rw.closeStream();
         }
     
-- The simplest API example
+- 最简单的API示例
+   如果您对于功能的定制需求没有这么强烈的话，这个API的调用会更加的适合您。它针对必要的参数进行了设置，注意这里的数据输出模式，如果您需要调用自定义的组件或者算法库中的数据组件，您需要将此模式更改为“UDT”。
      
-   If your customization requirements for functions are not so strong, this API call will be more suitable for you. It sets the necessary parameters. Note the data output mode here. If you need to call custom components or data components in the algorithm library, you need to change this mode to "UDT".
-
       public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
         // 配置数据输出类
@@ -102,18 +101,18 @@
         System.out.println(reader.getDataString());
       }
     
- - DTMaster component output mode
+ - DTMaster组件输出模式
  
  ![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
- - built_in
+ - built_in（内置数据输出模式）
   
-  Built in data output component, equivalent to data output mode of LOCAL_TEXT,In this mode, you can not load the data output component, but the disadvantage is that you can only use LOCAL in this mode_ TEXT mode for data output,The setting method is shown in the following figure.
+  内置数据输出组件，相当于LOCAL_TEXT的数据输出模式。在此模式下，您无法加载数据输出组件。但缺点是在此模式_ TEXT模式下，只能使用LOCAL进行数据输出。设置方法如下图所示。
  
 ![image](https://user-images.githubusercontent.com/113756063/191903087-8d3e70d3-f25e-4a6a-a55d-153a2d7a4c1f.png)
 
- - UDF
+ - UDF（自定义/算法库中的数据输出模式）
 
- UDF is also a user-defined data output mode. In this mode, you must load a data output component when instantiating the DTMaster. The loading of this data component can be extracted from the algorithm library or directly implemented by yourself. The following is an example of calling the local GZIP data output component in the algorithm library.
+  UDF也是一种用户定义的数据输出模式。在此模式下，在实例化DTMaster时必须加载数据输出组件。此数据组件的加载可以从算法库中提取，也可以由您自己直接实现。下面是调用算法库中本地GZIP数据输出组件的示例。
 ![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
 
 
