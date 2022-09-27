@@ -1,5 +1,6 @@
 # ![image](https://user-images.githubusercontent.com/113756063/191922682-384a6cd0-684d-4ca0-b442-9352834b036f.png) dataTear
 
+ - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
  - dataTear
 
  Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary data reading operations..
@@ -116,4 +117,4 @@
  UDF is also a user-defined data output mode. In this mode, you must load a data output component when instantiating the DTMaster. The loading of this data component can be extracted from the algorithm library or directly implemented by yourself. The following is an example of calling the local GZIP data output component in the algorithm library.
 ![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
 
-
+ - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
