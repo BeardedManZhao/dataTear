@@ -1,5 +1,7 @@
 # ![image](https://user-images.githubusercontent.com/113756063/191922682-384a6cd0-684d-4ca0-b442-9352834b036f.png) dataTear
 
+ - Switch to：[English document](https://github.com/BeardedManZhao/dataTear/blob/main/README.md)
+
  - dataTear
 
  拆分成数据碎片去进行数据的管理，在这种格式下，可以实现高效读取，避免不必要的数据读取操作。
@@ -115,4 +117,4 @@
   UDF也是一种用户定义的数据输出模式。在此模式下，在实例化DTMaster时必须加载数据输出组件。此数据组件的加载可以从算法库中提取，也可以由您自己直接实现。下面是调用算法库中本地GZIP数据输出组件的示例。
 ![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
 
-
+ - Switch to：[English document](https://github.com/BeardedManZhao/dataTear/blob/main/README.md)
