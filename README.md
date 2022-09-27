@@ -31,7 +31,7 @@
  
 - Full API Example
  
-    The API calls here are relatively complete, and the functions used are relatively comprehensive. You can use the following API calls for integrated development.
+The API calls here are relatively complete, and the functions used are relatively comprehensive. You can use the following API calls for integrated development.
  
     public static void main(String[] args) throws IOException {
             BasicConfigurator.configure();
@@ -73,13 +73,13 @@
          */
         public static boolean runRW(RW rw) throws IOException {
             return rw.openStream() && rw.op_Data() && rw.closeStream();
-        }
+    }
     
 - The simplest API example
      
-   If your customization requirements for functions are not so strong, this API call will be more suitable for you. It sets the necessary parameters. Note the data output mode here. If you need to call custom components or data components in the algorithm library, you need to change this mode to "UDT".
+ If your customization requirements for functions are not so strong, this API call will be more suitable for you. It sets the necessary parameters. Note the data output mode here. If you need to call custom components or data components in the algorithm library, you need to change this mode to "UDT".
 
-      public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
         // 配置数据输出类
         DTMaster dtMaster = new DTMaster(null)
@@ -101,7 +101,7 @@
         reader.closeStream();
 
         System.out.println(reader.getDataString());
-      }
+    }
     
  - DTMaster component output mode
  
