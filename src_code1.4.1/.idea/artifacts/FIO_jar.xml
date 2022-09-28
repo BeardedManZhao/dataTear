@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="FIO:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/FIO_jar</output-path>
+    <root id="archive" name="FIO.jar">
+      <element id="module-output" name="DataTear" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/org/apache/logging/log4j/log4j-api/2.19.0/log4j-api-2.19.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/org/apache/logging/log4j/log4j-core/2.19.0/log4j-core-2.19.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/ch/qos/reload4j/reload4j/1.2.22/reload4j-1.2.22.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/org/slf4j/slf4j-reload4j/2.0.1/slf4j-reload4j-2.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/org/slf4j/slf4j-api/2.0.1/slf4j-api-2.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="E:/RunTime/MAVEN/MAVEN_BASE/org/xerial/snappy/snappy-java/1.1.8.4/snappy-java-1.1.8.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="HCDCLI">
     <output-path>$PROJECT_DIR$/out/artifacts/HCDCLI</output-path>
     <root id="archive" name="HCDCLI.jar">
-      <element id="module-output" name="FIO" />
+      <element id="module-output" name="DataTear" />
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
       </element>

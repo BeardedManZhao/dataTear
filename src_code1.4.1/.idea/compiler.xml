@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="FIO" />
+        <module name="DataTear" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="FIO" target="8" />
+      <module name="DataTear" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
