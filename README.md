@@ -1,6 +1,10 @@
 # ![image](https://user-images.githubusercontent.com/113756063/191922682-384a6cd0-684d-4ca0-b442-9352834b036f.png) dataTear
 
  - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
+ - knowledge base
+<a href="知识库文档uri">
+ <img src = "知识库卡片uri"/>
+</a>
  - dataTear
 
  Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary data reading operations..
