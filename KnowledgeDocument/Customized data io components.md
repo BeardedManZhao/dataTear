@@ -4,7 +4,7 @@
 DataTear supports loading data io components in the constructor. For different needs, you can pass in your component instantiation object here, and DataTear will use the components you provide to perform data io operations.
 
 In Data Tear, the two main classes are DTMaster and DTRead. When these two components are instantiated, you can selectively import data io components. Before this, you need to set the data output mode of DTMaster to "DataOutputFormat. UDT".
-image-设置DataOutputFormat.UDT的截图
+![image](https://user-images.githubusercontent.com/113756063/193394129-1dbf3983-5e8d-461b-82ec-398c6860a2b1.png)
 
 - Implement data output components
 
