@@ -1,5 +1,5 @@
 # 定制数据io组件
-- Switch to [English document](https://github.com/BeardedManZhao/dataTear/edit/main/KnowledgeDocument/Customized%20data%20io%20components.md)
+- Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components.md)
 
 Data Tear 支持在构造函数中装载数据io组件，针对不同的需求，您可以在此传入您的组件实例化对象，Data Tear 将会使用您提供的组件去进行数据的io操作。
 
@@ -118,4 +118,4 @@ public class Test1 {
     }
 }
 ```
-- Switch to [English document](https://github.com/BeardedManZhao/dataTear/edit/main/KnowledgeDocument/Customized%20data%20io%20components.md)
+- Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components.md)
