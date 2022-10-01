@@ -4,7 +4,7 @@
 Data Tear 支持在构造函数中装载数据io组件，针对不同的需求，您可以在此传入您的组件实例化对象，Data Tear 将会使用您提供的组件去进行数据的io操作。
 
 在Data Tear 中，主要的两个类就是DTMaster 以及 DTRead，这两个组件在示例化的时候您可以选择性的传入数据io组件，在这之前，您需要将DTMaster的数据输出模式设置为"DataOutputFormat.UDT"。
-image-设置DataOutputFormat.UDT的截图
+![image](https://user-images.githubusercontent.com/113756063/193394129-1dbf3983-5e8d-461b-82ec-398c6860a2b1.png)
 
 - 实现数据输出组件
 
