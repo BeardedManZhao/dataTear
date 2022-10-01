@@ -2,8 +2,8 @@
 
  - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
  - knowledge base
-<a href="知识库文档uri">
- <img src = "知识库卡片uri"/>
+<a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base.md">
+ <img src = "https://user-images.githubusercontent.com/113756063/193392471-91f12eba-b839-4801-b82d-6f5f55ef9a37.png"/>
 </a>
  - dataTear
 
