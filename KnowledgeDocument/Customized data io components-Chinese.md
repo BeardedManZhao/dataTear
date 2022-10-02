@@ -1,4 +1,5 @@
-# ![image](Customized data io components img.png) ![img.png](Customized data io components title-c.png)
+# ![image](https://user-images.githubusercontent.com/113756063/193436880-7a0ee80e-dc44-485d-863e-d9f2133dc79f.png) ![Customized data io components title-c](https://user-images.githubusercontent.com/113756063/193436868-dadd6230-25ae-4251-aed5-d7359ee0a7cd.png)
+
 - Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components.md)
 
 Data Tear 支持在构造函数中装载数据io组件，针对不同的需求，您可以在此传入您的组件实例化对象，Data Tear 将会使用您提供的组件去进行数据的io操作。
