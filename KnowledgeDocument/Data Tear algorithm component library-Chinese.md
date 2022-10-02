@@ -20,6 +20,7 @@
   Data Io Layer是部分组件的底层实现，有的组件底层较为复杂，因此它们一般会在这里进行数据IO的实现，这一层中的所有数据读取皆是Reader的实现，所有数据输出皆是Writer的实现。
 
 - Component building
+  
   Component building是数据io层中组件的建造者实现类，我们数据io层组件皆是采用建造者构建出来的。
 
 #**算法库的使用**
