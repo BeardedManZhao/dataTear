@@ -67,7 +67,7 @@ public class Test1 {
 
 - 实现数据输入组件 
  
-  我们的DTRead构造也是需要一个接口"R_UDF"，该接口的作用与"W_UDF"几乎一致，只不过从中提取出来的是数据输入组件Reader，在DataTear中，Reader就是数据的来源，也是数据读取类。有关"R_UDF"的详细信息，请参阅:[R_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code1.4.1/src/main/java/zhao/io/dataTear/atzhaoPublic/R_UDF.java)
+  我们的DTRead构造也是需要一个接口"R_UDF"，该接口的作用与"W_UDF"几乎一致，只不过从中提取出来的是数据输入组件Reader，在DataTear中，Reader就是数据的来源，也是数据读取类。有关"R_UDF"的详细信息，请参阅:[R_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/R_UDF.java)
 
 接下来就是我们数据输入组件的实现示例
 ```

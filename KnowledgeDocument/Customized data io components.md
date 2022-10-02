@@ -10,7 +10,7 @@ In Data Tear, the two main classes are DTMaster and DTRead. When these two compo
 
 - Implement data output components
 
-  When the DTMaster data output mode is "DataOutputFormat. UDT", it will automatically use the interface you passed in during construction to obtain data output objects from the interface. For details, see:[W_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code1.4.1/src/main/java/zhao/io/dataTear/atzhaoPublic/W_UDF.java)
+  When the DTMaster data output mode is "DataOutputFormat. UDT", it will automatically use the interface you passed in during construction to obtain data output objects from the interface. For details, see:[W_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/W_UDF.java)
 The formal parameter of the run method in the interface is the data output directory. All you need to do is construct a data flow component through this data output directory. The following is an example.
 ```
 package example.core;
