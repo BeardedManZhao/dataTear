@@ -6,6 +6,6 @@ Here you can get more detailed information about this framework.
 </a>
 
 - Data Tear algorithm component library
-<a href="调用算法库卡片的文档uri">
- <img src = "调用算法库卡片的uri"/>
+<a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20algorithm%20component%20library.md">
+ <img src = "https://user-images.githubusercontent.com/113756063/193436922-694dc663-3c02-4b15-8634-bd3552101468.png"/>
 </a>
