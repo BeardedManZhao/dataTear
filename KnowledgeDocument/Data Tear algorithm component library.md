@@ -1,12 +1,13 @@
-# ![img_1.png](Data Tear algorithm component library img.png) ![img.png](Data Tear algorithm component library title-c.png)
-- 切换至 [中文文档]()
+# ![Data Tear algorithm component library img](https://user-images.githubusercontent.com/113756063/193436746-c253b493-038d-41e7-82e7-da2ff942e30f.png) ![image](https://user-images.githubusercontent.com/113756063/193436759-34985e17-beb1-44c1-a8cb-a10fbaa23cd1.png)
+
+- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20algorithm%20component%20library-Chinese.md)
 - **Introduction to Algorithm Library**
 
   The DataTear algorithm library is a module that helps users simplify the operation steps. It contains many data io implementation components. For some common and complex operations, there are implementations here. You can directly call the pre-implemented data here. IO components.
 - **Component structure in the algorithm library**
 
   The access to the entire algorithm library is managed by RW. The algorithm library can be accessed through the "getDT_UDF_Stream(DT_builtIn_UDF DTfs_streamName)" function in RW. The component class diagram in the algorithm library is as follows
-  ![img.png](algorithm component library Structure.png)
+![algorithm component library Structure](https://user-images.githubusercontent.com/113756063/193436729-5509aefd-701b-46c9-85cb-22d1dc0520fe.png)
 - DT_StreamBase
 
   DT Stream Base is the parent interface of the components in the algorithm library. The two methods provided in this interface are used to obtain data input and output components.
@@ -74,4 +75,4 @@ public class Test1 {
     }
 }
 ```
-- 切换至 [中文文档]()
+- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20algorithm%20component%20library-Chinese.md)
