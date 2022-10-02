@@ -9,7 +9,7 @@ Data Tear 支持在构造函数中装载数据io组件，针对不同的需求�
 
 - 实现数据输出组件
 
-  DTMaster数据输出模式为"DataOutputFormat.UDT"的时候，就会自动的使用您在构造时传入的接口，从接口中获取数据输出对象，具体可以参阅：[W_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code1.4.1/src/main/java/zhao/io/dataTear/atzhaoPublic/W_UDF.java)
+  DTMaster数据输出模式为"DataOutputFormat.UDT"的时候，就会自动的使用您在构造时传入的接口，从接口中获取数据输出对象，具体可以参阅：[W_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/W_UDF.java)
 接口中的run方法的形参就是数据的输出目录，您需要做的就是通过这个数据输出目录，构造出来一个数据流组件，下面是有关的示例。
 ```
 package example.core;

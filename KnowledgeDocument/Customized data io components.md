@@ -67,7 +67,7 @@ public class Test1 {
 
 - Implement data input components
   
-  Our DTRead construction also requires an interface "R_UDF", which has almost the same function as "W_UDF", except that the data input component Reader is extracted from it. In DataTear, the Reader is the source of data and also the data reading class. For more information about "R_UDF", see:[R_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code1.4.1/src/main/java/zhao/io/dataTear/atzhaoPublic/R_UDF.java)
+  Our DTRead construction also requires an interface "R_UDF", which has almost the same function as "W_UDF", except that the data input component Reader is extracted from it. In DataTear, the Reader is the source of data and also the data reading class. For more information about "R_UDF", see:[R_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/R_UDF.java)
 
 Next is the implementation example of our data input component.
 ```
