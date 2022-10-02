@@ -6,6 +6,6 @@
 </a>
 
 - Data Tear 算法库
-<a href="调用算法库卡片的文档uri">
- <img src = "调用算法库卡片的uri"/>
+<a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20algorithm%20component%20library-Chinese.md">
+ <img src = "https://user-images.githubusercontent.com/113756063/193436954-46e813e4-deed-4cd2-af1d-b3625bc22da3.png"/>
 </a>
