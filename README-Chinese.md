@@ -5,6 +5,7 @@
 <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base-Chinese.md">
  <img src = "https://user-images.githubusercontent.com/113756063/193392511-0ed99aa8-b08a-4001-974d-946d7d838988.png"/>
 </a>
+
  - dataTear
 
  拆分成数据碎片去进行数据的管理，在这种格式下，可以实现高效读取，避免不必要的数据读取操作。

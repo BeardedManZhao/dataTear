@@ -5,6 +5,7 @@
 <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base.md">
  <img src = "https://user-images.githubusercontent.com/113756063/193392471-91f12eba-b839-4801-b82d-6f5f55ef9a37.png"/>
 </a>
+
  - dataTear
 
  Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary data reading operations..
