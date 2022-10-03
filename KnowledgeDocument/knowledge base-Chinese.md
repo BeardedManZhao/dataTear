@@ -9,3 +9,7 @@
 <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20algorithm%20component%20library-Chinese.md">
  <img src = "https://user-images.githubusercontent.com/113756063/193436954-46e813e4-deed-4cd2-af1d-b3625bc22da3.png"/>
 </a>
+- Data Tear 操作HDFS
+<a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS-Chinese.md">
+ <img src = "https://user-images.githubusercontent.com/113756063/193498369-57a871a2-0e31-4791-9e25-95bbc302ca6d.png"/>
+</a>
