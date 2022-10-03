@@ -1,12 +1,13 @@
-# ![logo]() ![title]()
-- Switch to [English Document]()
+# ![image](https://user-images.githubusercontent.com/113756063/193497584-972f06fb-3d79-44c6-8e37-8233a8c9b035.png) ![image](https://user-images.githubusercontent.com/113756063/193497600-9817a176-6d6c-4825-87de-570999a25957.png)
+- Switch to [English Document](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS.md)
 ### DataTear-HDFS相关组件介绍
 
   DataTear预先实现好的一些组件都会存储在算法库中，用户可以在库中进行数据操作组件的获取，库中包含了HDFS的模块，您可以通过这些模块直接将DataTear数据读写业务对接到HDFS中，针对HDFS的使用，您不需要去手动实现新组件啦!
 ### 算法库中HDFS组件的架构
 
   在算法库中，有着一套HDFS的数据流操作组件，它们每一个组件中都有两个方法，分别提供数据输出与数据输入的对象，下图中展示的就是HDFS组件的一个基本架构。
-  image
+![image](https://user-images.githubusercontent.com/113756063/193497945-0324f65d-3f0e-446d-ab0a-3f6fdaef9c54.png)
+
   其中HDFS的集成组件"Data component"就是通过算法库直接获取到的，每一个"Data component"中都包含者它的读写组件，这个读写组件也就是io层，在io层中可以看到有·各种各样的读写组件。
   
 每一个io层的类，都是在构建层被构建出来的，这里采用的是建造者模式，将每一个io层的类构建出来，集成到"Data component"中。
@@ -130,4 +131,4 @@ public class Test2 {
     }
 }
 ```
-- Switch to [English Document]()
+- Switch to [English Document](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS.md)
