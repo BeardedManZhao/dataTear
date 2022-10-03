@@ -1,7 +1,7 @@
 # ![image](https://user-images.githubusercontent.com/113756063/193497584-972f06fb-3d79-44c6-8e37-8233a8c9b035.png) ![image](https://user-images.githubusercontent.com/113756063/193497644-124c5490-fe9f-4b7e-90e1-831a77a045d2.png)
 
 
-- 切换到 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
+- 切换到 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS-Chinese.md)
 ### DataTear-HDFS Introduction to related components
 
   DataTear Some pre implemented components will be stored in the algorithm library, where users can obtain data operation components. The library contains HDFS modules, through which you can directly connect DataTear data read/write business to HDFS. For the use of HDFS, you do not need to manually implement new components!
@@ -133,4 +133,4 @@ public class Test2 {
     }
 }
 ```
-- 切换到 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
+- 切换到 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS-Chinese.md)
