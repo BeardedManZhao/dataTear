@@ -1,12 +1,15 @@
-# ![logo]() ![title]()
-- 切换到 [中文文档]()
+# ![image](https://user-images.githubusercontent.com/113756063/193497584-972f06fb-3d79-44c6-8e37-8233a8c9b035.png) ![image](https://user-images.githubusercontent.com/113756063/193497644-124c5490-fe9f-4b7e-90e1-831a77a045d2.png)
+
+
+- 切换到 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
 ### DataTear-HDFS Introduction to related components
 
   DataTear Some pre implemented components will be stored in the algorithm library, where users can obtain data operation components. The library contains HDFS modules, through which you can directly connect DataTear data read/write business to HDFS. For the use of HDFS, you do not need to manually implement new components!
 ### Architecture of HDFS components in algorithm library
 
 In the algorithm library, there is a set of HDFS data flow operation components, each of which has two methods to provide data output and data input objects. The following figure shows a basic architecture of HDFS components.
-image
+![image](https://user-images.githubusercontent.com/113756063/193497951-230e3aaa-bc04-4cf5-b624-f75586aefa2b.png)
+
 The HDFS integration component "Data component" is directly obtained through the algorithm library. Each "Data component" contains its read-write component, which is also the IO layer. You can see various read-write components in the IO layer.
 
 Each class of the IO layer is built in the construction layer. The constructor mode is used here to build classes of each IO layer and integrate them into the "Data component".
@@ -130,4 +133,4 @@ public class Test2 {
     }
 }
 ```
-- 切换到 [中文文档]()
+- 切换到 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
