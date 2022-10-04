@@ -11,7 +11,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * TODO 需要更新BZIP2算法的输入流组件
+ * HDFS数据读取组件，使用BZIP2算法进行数据解码读取，与BZIP2数据的数据输出是相互对应的
+ * <p>
+ * The HDFS data reading component uses the BZIP 2 algorithm for data decoding and reading, which corresponds to the data output of the BZIP 2 data.
+ *
+ * @see zhao.io.dataTear.dataOp.dataTearRW.hdfs.HDFSWriterBZIP2
  */
 public class HDFSReaderBZIP2 extends Reader {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -71,8 +75,8 @@ public class HDFSReaderBZIP2 extends Reader {
     }
 
     /**
-     * @param data 需要解压的数组
-     * @return 解压之后的数组
+     * @param data 需要解压的数组  Array to be decompressed
+     * @return 解压之后的数组  Array after decompression
      */
     private byte[] unBZIP2(byte[] data) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);

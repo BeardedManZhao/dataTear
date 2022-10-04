@@ -19,12 +19,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author 赵凌宇
- * @version 1.0
+ * @version 1.4.2
+ * <p>
  * 写DataTear数据实现类，读取数据，按照DataTear格式规范转换构建输出文件
  * <p>
  * 采用以自身为建造者设计模式进行实例化，省去建造者类的冗余
  * <p>
  * 是数据撕裂的主要模块，通过该模块可以构建出对应的DataTear目录
+ * <p>
+ * <p>
+ * Write the DataTear data implementation class, read the data, convert and construct the output file according to the DataTear format specification, and instantiate it with the design mode of the builder itself, eliminating the redundancy of the builder class is the main module of data tearing. Through this module, you can Build the corresponding DataTear directory
  * <p>
  * API调用示例：
  * <p>
@@ -57,6 +61,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DTMaster implements RW {
     private final Logger logger = LoggerFactory.getLogger("DataTear_Core");
     private final W_UDF udf;
+    private final boolean useNonparametricStructure;
     private String In_FilePath;
     private File In_File;
     private String OUT_FilePath;
@@ -73,12 +78,23 @@ public class DTMaster implements RW {
     private boolean useSynchronization = true;
 
     /**
+     * 不使用自定义的数据输出组件构造一个DTMaster
+     */
+    public DTMaster() {
+        this.udf = null;
+        WriterFormat(DataOutputFormat.built_in);
+        logger.warn("您使用了无参构造方式获取到DTMaster，请注意，在此模式下您不需要进行数据输出模式的设置了");
+        this.useNonparametricStructure = true;
+    }
+
+    /**
      * 构建DataTear写数据组件 同时也是DataTearMaster
      *
      * @param udf W_UDF接口实现类 其中代表的是写数据组件的实现, 您可以使用Lambda的方式将数据组件从此接口中返回，本类将会去提取组件
      */
     public DTMaster(W_UDF udf) {
         this.udf = udf;
+        useNonparametricStructure = false;
     }
 
     /**
@@ -145,9 +161,14 @@ public class DTMaster implements RW {
      */
     @Priority("1")
     public DTMaster setReader(Reader reader) {
-        this.reader = reader;
-        this.In_File = reader.getIn_File();
-        this.In_FilePath = reader.getIn_FilePath();
+        if (this.dataSourceFormat == DataSourceFormat.UDT) {
+            this.reader = reader;
+            this.In_File = reader.getIn_File();
+            this.In_FilePath = reader.getIn_FilePath();
+        } else if (this.dataSourceFormat == DataSourceFormat.built_in) {
+            String s = "您设置的输入模式为[" + this.dataSourceFormat + "] 此模式不允许设置Reader类，请您调用 setInPath() 进行数据源的设置。";
+            logger.error(s, new ZHAOLackOfInformation(s));
+        }
         return this;
     }
 
@@ -214,7 +235,12 @@ public class DTMaster implements RW {
      * @return 链
      */
     public DTMaster WriterFormat(DataOutputFormat dataSinkFormat) {
-        this.dataOutputFormat = dataSinkFormat;
+        if (this.useNonparametricStructure) {
+            String s = "您使用了无参方式构造[" + this.getClass().getName() + "]组件，意味着您不需要进行的数据模式设置，请检查您的API调用。";
+            logger.error(s, new ZHAOLackOfInformation(s));
+        } else {
+            this.dataOutputFormat = dataSinkFormat;
+        }
         return this;
     }
 
@@ -229,11 +255,16 @@ public class DTMaster implements RW {
      * @return 链
      */
     public DTMaster setIn_FilePath(String in_FilePath) {
-        try {
-            In_FilePath = in_FilePath;
-            In_File = new File(in_FilePath);
-        } catch (NullPointerException n) {
-            throw new ZHAOLackOfInformation("您为DTMaster设置的信息不全哦！请将输入路径设置一下！");
+        if (this.dataSourceFormat == DataSourceFormat.built_in) {
+            try {
+                In_FilePath = in_FilePath;
+                In_File = new File(in_FilePath);
+            } catch (NullPointerException n) {
+                throw new ZHAOLackOfInformation("您为DTMaster设置的信息不全哦！请将输入路径设置一下！", logger);
+            }
+        } else if (this.dataSourceFormat == DataSourceFormat.UDT) {
+            String s = "您设置的输入模式为[" + this.dataSourceFormat + "] 此模式不允许设置数据输入路径，而是设置Reader类，请您调用 setReader() 进行数据源的设置。";
+            logger.error(s, new ZHAOLackOfInformation(s));
         }
         return this;
     }
@@ -254,7 +285,7 @@ public class DTMaster implements RW {
             this.OUT_FilePath = OUT_FilePath;
             OUT_file = new File(OUT_FilePath);
         } catch (NullPointerException n) {
-            throw new ZHAOLackOfInformation("您为DTMaster设置的信息不全哦！请将输出路径设置一下！");
+            throw new ZHAOLackOfInformation("您为DTMaster设置的信息不全哦！请将输出路径设置一下！", logger);
         }
         return this;
     }
@@ -274,7 +305,7 @@ public class DTMaster implements RW {
             this.OUT_file = OUT_file;
             OUT_FilePath = OUT_file.getAbsolutePath();
         } catch (NullPointerException n) {
-            throw new ZHAOLackOfInformation("您为DTMaster设置的信息不全哦！请将输出路径对象设置一下！");
+            throw new ZHAOLackOfInformation("您为DTMaster设置的信息不全哦！请将输出路径对象设置一下！", logger);
         }
         return this;
     }
@@ -317,15 +348,7 @@ public class DTMaster implements RW {
             e.printStackTrace(System.err);
             return false;
         } catch (NullPointerException n) {
-            if (dataSourceFormat == DataSourceFormat.UDT) {
-                ZHAOLackOfInformation zhaoLackOfInformation = new ZHAOLackOfInformation("您设置的输入模式/输出模式，与真正使用的组件是不一致的，如果您想要使用" + dataOutputFormat + "模式，请您结束对setInPath一类的方法调用。");
-                logger.error("DTReader错误" + zhaoLackOfInformation);
-                throw zhaoLackOfInformation;
-            } else if (dataSourceFormat == DataSourceFormat.built_in) {
-                ZHAOLackOfInformation zhaoLackOfInformation = new ZHAOLackOfInformation("您设置的输入模式/输出模式，与真正使用的组件是不一致的，如果您想要使用" + dataOutputFormat + "模式，请您结束对Reader的设置。");
-                logger.error("DTReader错误" + zhaoLackOfInformation);
-                throw zhaoLackOfInformation;
-            }
+            logger.error("发生了空指针异常，具体原因请看堆栈信息。", n);
             return false;
         }
     }
@@ -360,8 +383,7 @@ public class DTMaster implements RW {
                 rwTable.putAllData(loadData(new String(datas)));
                 logger.info("数据加载完成！开始进行DataTear的格式转换，构建rwTable");
             } catch (ArrayIndexOutOfBoundsException e) {
-                logger.error("您设置的primaryKey索引不存在于数据中，您的数据列数可能小于您设置的primaryIndex序号，请您检查数据表结构。" + e.getLocalizedMessage());
-                e.printStackTrace(System.err);
+                logger.error("您设置的primaryKey索引不存在于数据中，您的数据列数可能小于您设置的primaryIndex序号，请您检查数据表结构,并重新 setPrimaryNum()。错误索引：" + e.getLocalizedMessage(), e);
                 return false;
             }
             try {
@@ -374,11 +396,10 @@ public class DTMaster implements RW {
             return true;
         } catch (IOException e) {
             if (dataSourceFormat == DataSourceFormat.built_in) {
-                logger.error("数据输出流异常：原因：" + e);
+                logger.error("数据输出流异常：原因：" + e, e);
             } else {
-                logger.error("UDF输出流异常：原因：" + e);
+                logger.error("UDF输出流异常：原因：" + e, e);
             }
-            e.printStackTrace(System.err);
             return false;
         }
     }

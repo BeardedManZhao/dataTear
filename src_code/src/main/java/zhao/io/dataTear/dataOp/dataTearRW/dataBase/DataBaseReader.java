@@ -220,7 +220,7 @@ public class DataBaseReader extends Reader {
             String error = "您的DataBaseReader组件数据流有尝试打开，但是出现了异常，请您检查该组件的API调用" +
                     "\n\t单数据流实例化示例：DataBaseReader.builder().setConnection(连接对象).from(\"table\").where(\"a = 123\")" +
                     "\n\t算法库拉取API示例：return ((DataBaseStream) RW.getDT_UDF_Stream(DT_builtIn_UDF.SQLDB_TEXT)).setConnection(连接对象).where(\"sex = '男'\").readStream(s);";
-            logger.error(error);
+            logger.error(error, e);
             throw new ZHAOLackOfInformation(error);
         }
         return true;
@@ -250,8 +250,7 @@ public class DataBaseReader extends Reader {
                 }
             }
         } catch (SQLException | IOException | NullPointerException e) {
-            logger.error("数据库数据操作组件，出现了异常，异常原因：" + e);
-            e.printStackTrace(System.err);
+            logger.error("数据库数据操作组件，出现了异常，异常原因：" + e, e);
             return false;
         }
         try {

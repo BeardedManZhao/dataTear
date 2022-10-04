@@ -189,17 +189,16 @@ public class DTRead extends Reader {
             try {
                 MetaBuilder.write(nameManagerInputStream.getDataArray());
             } catch (IOException | NullPointerException e) {
-                throw new AnalysisMetadataException("有尝试解析元数据，但是没有解析成功！ 异常原因：" + (nameManagerInputStream.getDataArray() == null ? "元数据的输入流没有被加载" : "元数据解析数组没有被存入数组") + "。");
+                throw new AnalysisMetadataException("有尝试解析元数据，但是没有解析成功！ 异常原因：" + (nameManagerInputStream.getDataArray() == null ? "元数据的输入流没有被加载" : "元数据解析数组没有被存入数组") + "。", logger);
             }
             String[] mateLines = MetaBuilder.toString().trim().split("\n");
             MetaBuilder.flush();
             MetaBuilder.close();
             logger.info("读取NameManager：[" + super.getIn_FilePath() + "]·······读取大小：" + FileLenCount);
             HashSet<String> NoFragmentations = new HashSet<>(); // 不需要的Fragmentation将会被存储进这里
-            System.out.print("开始提取NameManager【");
+            StringBuilder stringBuilder = new StringBuilder("开始提取NameManager【");
             // 提取所有键值对信息 同时将符合查询索引条件的数据碎片提取
             for (String mateLine : mateLines) {
-//                System.err.println(mateLine);
                 String[] split = mateLine.split("\\s+=\\s+");
                 String NameMetakey = split[0];
                 String primary_key = split.length > 1 ? split[1] : " ";
@@ -210,19 +209,19 @@ public class DTRead extends Reader {
                 if (!isadd && isblk && PrimaryCharacteristic.filter(primary_key)) {
                     // 如果NameManager中存在该数据碎片元数据 && 该数据碎片的主键进行初次定位 && 该数据碎片的主键进行匹配描述
                     DataFragmentation.put(primary_blk, null);
-                    System.out.print("#");
+                    stringBuilder.append("#");
                 } else if (!isblk) {
                     // 如果不是数据碎片信息 就是索引 需要添加进索引列表
                     IndexList.put(NameMetakey, primary_key);
-                    System.out.print("$");
+                    stringBuilder.append("$");
                 } else if (!isadd && !NoFragmentations.contains(primary_blk)) {
                     // 如果是我们不需要的数据碎片
-                    System.out.print("=");
+                    stringBuilder.append("=");
                     NoFragmentations.add(primary_blk);
                 }
             }
             super.setSrcFile(IndexList.getOrDefault("srcFile", "----丢失----"));
-            System.out.println("】\n* >>> 提取到需要的数据碎片(#)【" + DataFragmentation.size() + "】\t未提取数据碎片(=)【" + NoFragmentations.size() + "】\t其它索引信息($)【" + IndexList.size() + "】");
+            logger.info(stringBuilder + "】\n* >>> 提取到需要的数据碎片(#)【" + DataFragmentation.size() + "】\t未提取数据碎片(=)【" + NoFragmentations.size() + "】\t其它索引信息($)【" + IndexList.size() + "】");
             // 提取我们需要的数据碎片路径
             for (String FragmentationPath : IndexList.get("zhao.NameManager.Fragmentation.path").split("&+")) {
                 File FragmentationFile = new File(FragmentationPath);
@@ -233,8 +232,7 @@ public class DTRead extends Reader {
             }
         } else {
             ZHAOLackOfInformation zhaoLackOfInformation = new ZHAOLackOfInformation("您设置的信息不全哦！请对DataTearRead类的PrimaryCharacteristic进行设置，否则没有办法找到您需要的数据碎片了呢。");
-            logger.error(zhaoLackOfInformation.getLocalizedMessage());
-            zhaoLackOfInformation.printStackTrace();
+            logger.error(zhaoLackOfInformation.getLocalizedMessage(), zhaoLackOfInformation);
             throw zhaoLackOfInformation;
         }
     }
@@ -253,8 +251,7 @@ public class DTRead extends Reader {
             CreateDateMS = Long.parseLong(IndexList.getOrDefault("zhao.NameManager.id", "0"));
         } catch (NullPointerException | IOException e) {
             AnalysisMetadataException analysisMetadataException = new AnalysisMetadataException("自定义数据流可能发生错误，如果自定义的流没有问题，那么就是NameManager已损坏。");
-            logger.error(analysisMetadataException + " and " + e);
-            e.printStackTrace(System.err);
+            logger.error(analysisMetadataException + " and " + e, e);
             throw analysisMetadataException;
         }
         return true;
@@ -359,7 +356,7 @@ public class DTRead extends Reader {
                 // 等待所有数据碎片读取完成/等待到最大超时时间
                 isOutTime = !countDownLatch.await(MaxOutTimeMS, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("数据碎片读取线程发生了异常，被中断，可能是读取超时！", e);
             }
         }
         Boolean aBoolean = Allstatus.stream().reduce((x, y) -> x && y).orElse(false);
@@ -404,8 +401,7 @@ public class DTRead extends Reader {
                 nameManagerInputStream.closeStream();
                 logger.info("已关闭数据输入流！");
             } catch (IOException e) {
-                e.printStackTrace();
-                logger.error("数据输入流关闭失败 原因 ： " + e);
+                logger.error("数据输入流关闭失败 原因 ： " + e, e);
                 return false;
             }
         }

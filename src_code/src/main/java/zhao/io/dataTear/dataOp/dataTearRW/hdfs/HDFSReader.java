@@ -24,7 +24,7 @@ public class HDFSReader extends Reader {
     }
 
     /**
-     * 开始建造HDFS输出组件
+     * 开始建造HDFS输出组件 Start building HDFS output components
      *
      * @return 建造者对象
      */
@@ -63,7 +63,7 @@ public class HDFSReader extends Reader {
         try {
             fsDataInputStream.close();
         } catch (IOException e) {
-            e.printStackTrace(System.err);
+            logger.warn("An exception occurred in HDFS close", e);
         }
     }
 }
