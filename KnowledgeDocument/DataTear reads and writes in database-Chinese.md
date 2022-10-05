@@ -1,6 +1,6 @@
-# ![logo]() ![titleC]()
+# ![image](https://user-images.githubusercontent.com/113756063/194054780-3c6e7e39-1a93-459f-8f13-74dd14ce5b88.png) ![image](https://user-images.githubusercontent.com/113756063/194055351-81cd7012-515a-43d8-b97c-7aa22fff329b.png)
 
-- Switch to [English document]()
+- Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md)
 
 ### 在数据库中构建与获取DataTear
 
@@ -9,7 +9,7 @@ DataTear的算法库中还提供了一套在数据库中的io组件，您可以�
 值得注意的是，一般情况是一个库作为一个DataTear文件的存储空间，当然，该组件推荐是在数据库中存储大数据文件的情况下使用，能够有效的改善数据库中表数据量过大的问题
 
 如果数据量不是很大，那么可能会出现“小题大作”的情况，在DataTear中，数据库io组件的架构如下所示
-![DBIO]Image()
+![image](https://user-images.githubusercontent.com/113756063/194054513-8f77fb03-1858-4d0a-8157-d763d50d5e16.png)
 
 ### 示例API调用 - DataBaseWriter
 
@@ -122,4 +122,4 @@ public class Test {
 }
 ```
 
-- Switch to [English document]()
+- Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md)
