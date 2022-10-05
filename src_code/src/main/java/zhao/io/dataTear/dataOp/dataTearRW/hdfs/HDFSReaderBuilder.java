@@ -70,9 +70,9 @@ public class HDFSReaderBuilder implements Builder<HDFSReader> {
     }
 
     /**
-     * 定位输出路径 该方法不一定会被调用，因为针对文件输出路径的设置由DataTear去实现
+     * 定位输入路径 该方法不一定会被调用，因为针对文件输入路径的设置由DataTear去实现
      * <p>
-     * Locate the output path This method is not necessarily called, because the settings for the file output path are implemented by DataTear
+     * Locate the inputt path This method is not necessarily called, because the settings for the file inputt path are implemented by DataTear
      *
      * @param pathString 设置文件路径 set file path
      * @return 链
@@ -84,9 +84,9 @@ public class HDFSReaderBuilder implements Builder<HDFSReader> {
     }
 
     /**
-     * 定位输出路径 该方法不一定会被调用，因为针对文件输出路径的设置由DataTear去实现
+     * 定位输入路径 该方法不一定会被调用，因为针对文件输入路径的设置由DataTear去实现
      * <p>
-     * Locate the output path This method is not necessarily called, because the settings for the file output path are implemented by DataTear
+     * Locate the inputt path This method is not necessarily called, because the settings for the file inputt path are implemented by DataTear
      *
      * @param pathObject 设置文件路径对象 set file path
      * @return 链
@@ -98,9 +98,9 @@ public class HDFSReaderBuilder implements Builder<HDFSReader> {
     }
 
     /**
-     * 直接通过FileSystem对象构建输出组件，这个是非常推荐的方法
+     * 直接通过FileSystem对象构建输入组件，这个是非常推荐的方法
      * <p>
-     * Build the output component directly from the File System object, this is a very recommended method
+     * Build the inputt component directly from the File System object, this is a very recommended method
      *
      * @param fileSystem HDFS file System
      * @return 链

@@ -11,20 +11,22 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 
 /**
- * TODO 需要更新GZIP算法的输入流组件
+ * 在HDFS中使用GZIP算法进行数据解码读取的组件，通过此组件您可以直接读取HDFS中的GZIP数据
+ * <p>
+ * A component that uses the GZIP algorithm to decode and read data in HDFS. With this component, you can directly read GZIP data in HDFS.
  */
 public class HDFSReaderGZIP extends Reader {
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    Path In_path;
-    String In_Pathstr;
+    protected final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    protected Path In_path;
+    protected String In_PathStr;
 
-    public HDFSReaderGZIP(FileSystem fileSystem, Path in_path, String in_Pathstr) {
+    public HDFSReaderGZIP(FileSystem fileSystem, Path in_path, String in_PathStr) {
         try {
             setInputStream(fileSystem.open(in_path));
-            In_path = in_path;
-            In_Pathstr = in_Pathstr;
+            this.In_path = in_path;
+            this.In_PathStr = in_PathStr;
         } catch (IOException e) {
-            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_Pathstr + ",错误原因：" + e);
+            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_PathStr + ",错误原因：" + e);
             e.printStackTrace(System.err);
         }
     }
@@ -71,8 +73,8 @@ public class HDFSReaderGZIP extends Reader {
     }
 
     /**
-     * @param data 需要解压的数组
-     * @return 解压之后的数组
+     * @param data 需要解压的数组 Array to be decompressed
+     * @return 解压之后的数组  Array after decompression
      */
     private byte[] unGZip(byte[] data) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

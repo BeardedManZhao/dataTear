@@ -1,43 +1,43 @@
 # ![image](https://user-images.githubusercontent.com/113756063/191922682-384a6cd0-684d-4ca0-b442-9352834b036f.png) dataTear
 
- - Switch to：[English document](https://github.com/BeardedManZhao/dataTear/blob/main/README.md)
+- Switch to：[English document](https://github.com/BeardedManZhao/dataTear/blob/main/README.md)
 - 知识库
-<a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base-Chinese.md">
- <img src = "https://user-images.githubusercontent.com/113756063/193392511-0ed99aa8-b08a-4001-974d-946d7d838988.png"/>
-</a>
+  <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base-Chinese.md">
+  <img src = "https://user-images.githubusercontent.com/113756063/193392511-0ed99aa8-b08a-4001-974d-946d7d838988.png"/>
+  </a>
 
- - dataTear
+- dataTear
 
- 拆分成数据碎片去进行数据的管理，在这种格式下，可以实现高效读取，避免不必要的数据读取操作。
-  
-  - MAVEN dependent
-  
-    Maven存储库 url:  https://s01.oss.sonatype.org/content/repositories/snapshots
-    
-        <repositories>
-            <repository>
-                <id>a</id>
-                <name>sonatype</name>
-                <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-            </repository>
-        </repositories>
-    
-        <dependencies>
-            <dependency>
-                <groupId>io.github.BeardedManZhao</groupId>
-                <artifactId>dataTear</artifactId>
-                <version>1.4-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-  
- - 使用示例
- 
-   下面是针对dataTear文件的读写进行的一个示例，master就是数据输出组件，Reader就是数据读取组件，这俩组件的超接口是同一个，灵活性比较强大！针对参数的设置，可以采取链式，当然您也可以分步进行设置，提供了强大的灵活性。具体使用方式请参阅下面的main函数代码文档!
+  拆分成数据碎片去进行数据的管理，在这种格式下，可以实现高效读取，避免不必要的数据读取操作。
 
-  - 完整API的调用示例
- 
-   此处的API调用相对完整，使用到的功能时比较全面的，您可以按照下面的API调用去进行集成开发。
- 
+- MAVEN dependent
+
+  Maven存储库 url:  https://s01.oss.sonatype.org/content/repositories/snapshots
+
+      <repositories>
+          <repository>
+              <id>a</id>
+              <name>sonatype</name>
+              <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+          </repository>
+      </repositories>
+
+      <dependencies>
+          <dependency>
+              <groupId>io.github.BeardedManZhao</groupId>
+              <artifactId>dataTear</artifactId>
+              <version>1.4-SNAPSHOT</version>
+          </dependency>
+      </dependencies>
+
+- 使用示例
+
+  下面是针对dataTear文件的读写进行的一个示例，master就是数据输出组件，Reader就是数据读取组件，这俩组件的超接口是同一个，灵活性比较强大！针对参数的设置，可以采取链式，当然您也可以分步进行设置，提供了强大的灵活性。具体使用方式请参阅下面的main函数代码文档!
+
+- 完整API的调用示例
+
+此处的API调用相对完整，使用到的功能时比较全面的，您可以按照下面的API调用去进行集成开发。
+
     public static void main(String[] args) throws IOException {
             BasicConfigurator.configure();
             Date date = new Date();
@@ -79,11 +79,11 @@
         public static boolean runRW(RW rw) throws IOException {
             return rw.openStream() && rw.op_Data() && rw.closeStream();
         }
-    
+
 - 最简单的API示例
 
   如果您对于功能的定制需求没有这么强烈的话，这个API的调用会更加的适合您。它针对必要的参数进行了设置，注意这里的数据输出模式，如果您需要调用自定义的组件或者算法库中的数据组件，您需要将此模式更改为“UDT”。
-     
+
       public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
         // 配置数据输出类
@@ -107,19 +107,20 @@
 
         System.out.println(reader.getDataString());
       }
-    
- - DTMaster组件输出模式
- 
- ![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
- - built_in（内置数据输出模式）
-  
-  内置数据输出组件，相当于LOCAL_TEXT的数据输出模式。在此模式下，您无法加载数据输出组件。但缺点是在此模式_ TEXT模式下，只能使用LOCAL进行数据输出。设置方法如下图所示。
- 
+
+- DTMaster组件输出模式
+
+![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
+
+- built_in（内置数据输出模式）
+
+内置数据输出组件，相当于LOCAL_TEXT的数据输出模式。在此模式下，您无法加载数据输出组件。但缺点是在此模式_ TEXT模式下，只能使用LOCAL进行数据输出。设置方法如下图所示。
+
 ![image](https://user-images.githubusercontent.com/113756063/191903087-8d3e70d3-f25e-4a6a-a55d-153a2d7a4c1f.png)
 
- - UDF（自定义/算法库中的数据输出模式）
+- UDF（自定义/算法库中的数据输出模式）
 
-  UDF也是一种用户定义的数据输出模式。在此模式下，在实例化DTMaster时必须加载数据输出组件。此数据组件的加载可以从算法库中提取，也可以由您自己直接实现。下面是调用算法库中本地GZIP数据输出组件的示例。
+UDF也是一种用户定义的数据输出模式。在此模式下，在实例化DTMaster时必须加载数据输出组件。此数据组件的加载可以从算法库中提取，也可以由您自己直接实现。下面是调用算法库中本地GZIP数据输出组件的示例。
 ![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
 
- - Switch to：[English document](https://github.com/BeardedManZhao/dataTear/blob/main/README.md)
+- Switch to：[English document](https://github.com/BeardedManZhao/dataTear/blob/main/README.md)

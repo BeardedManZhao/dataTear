@@ -9,22 +9,22 @@ import java.io.IOException;
 
 public class HDFSReader extends Reader {
 
-    FSDataInputStream fsDataInputStream;
+    protected FSDataInputStream fsDataInputStream;
     Path In_path;
-    String In_Pathstr = "";
+    String In_PathStr = "";
 
-    public HDFSReader(FileSystem fileSystem, Path in_path, String in_Pathstr) {
+    public HDFSReader(FileSystem fileSystem, Path in_path, String in_PathStr) {
         try {
             this.fsDataInputStream = fileSystem.open(in_path);
             In_path = in_path;
         } catch (IOException e) {
-            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_Pathstr + ",错误原因：" + e);
+            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_PathStr + ",错误原因：" + e);
             e.printStackTrace(System.err);
         }
     }
 
     /**
-     * 开始建造HDFS输出组件 Start building HDFS output components
+     * 开始建造HDFS输入组件 Start building HDFS input components
      *
      * @return 建造者对象
      */
@@ -40,8 +40,8 @@ public class HDFSReader extends Reader {
         return In_path;
     }
 
-    public String getIn_Pathstr() {
-        return In_Pathstr;
+    public String getIn_PathStr() {
+        return In_PathStr;
     }
 
     @Override

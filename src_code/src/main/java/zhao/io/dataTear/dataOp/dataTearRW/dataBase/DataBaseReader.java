@@ -199,7 +199,7 @@ public class DataBaseReader extends Reader {
         try {
             isNameManager = TableName.split("\\.")[1].equalsIgnoreCase("nameManager");
         } catch (ArrayIndexOutOfBoundsException | NullPointerException a) {
-            logger.error("请检查您的表设置是否正确，有尝试解析输入设置，但是解析失败。");
+            logger.error("请检查您的表设置是否正确，有尝试解析输入设置，但是解析失败。", a);
             throw new ZHAOLackOfInformation("DataBaseReader组件尝试解析表[" + TableName + "]但是解析失败！");
         }
         try {

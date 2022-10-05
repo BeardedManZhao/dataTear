@@ -16,39 +16,49 @@ import java.util.zip.GZIPOutputStream;
  */
 public class HDFSWriterGZIP extends Writer {
 
-    FSDataOutputStream fsDataOutputStream;
+    protected final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    protected final ByteArrayOutputStream OKYA = new ByteArrayOutputStream();
+    protected FSDataOutputStream fsDataOutputStream;
     Path Out_path;
-    String Out_Pathstr;
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    ByteArrayOutputStream OKYA = new ByteArrayOutputStream();
+    String Out_PathStr;
     private Charset charset;
 
     /**
-     * 由建造者进行构造函数的执行，获取类
+     * 由建造者进行构造函数的执行，获取到这个类
+     * <p>
+     * The constructor executes the constructor to obtain this class
      *
      * @param fileSystem HDFS对象，会通过该对象获取HDFS集群地址
-     * @param path       数据输出路径
-     * @param charset    数据输出编码集
+     *                   <p>
+     *                   HDFS object, through which the HDFS cluster address will be obtained
+     * @param path       数据输出路径  data output path
+     * @param charset    数据输出编码集  Data output code set
      * @throws IOException 无法通过HDFS对象获取目标HDFS 或 Path错误的时候，都有可能抛出该错误
+     *                     <p>
+     *                     This error may be thrown when the target HDFS or Path error cannot be obtained through the HDFS object
      */
     public HDFSWriterGZIP(FileSystem fileSystem, Path path, Charset charset) throws IOException {
         this.fsDataOutputStream = fileSystem.create(path);
         Out_path = path;
-        Out_Pathstr = Out_path.toString();
+        Out_PathStr = Out_path.toString();
         this.charset = charset;
     }
 
     /**
-     * 使用默认字符集构造函数
+     * 使用默认字符集构造函数  Use default charset constructor
      *
      * @param fileSystem HDFS对象，会通过该对象获取HDFS集群地址
-     * @param path       数据输出路径
+     *                   <p>
+     *                   HDFS object, through which the HDFS cluster address will be obtained
+     * @param path       数据输出路径  data output path
      * @throws IOException 无法通过HDFS对象获取目标HDFS 或 Path错误的时候，都有可能抛出该错误
+     *                     <p>
+     *                     This error may be thrown when the target HDFS or Path error cannot be obtained through the HDFS object
      */
     public HDFSWriterGZIP(FileSystem fileSystem, Path path) throws IOException {
         this.fsDataOutputStream = fileSystem.create(path);
         Out_path = path;
-        Out_Pathstr = Out_path.toString();
+        Out_PathStr = Out_path.toString();
     }
 
 
@@ -87,7 +97,7 @@ public class HDFSWriterGZIP extends Writer {
 
     @Override
     public String getPath() {
-        return this.Out_Pathstr;
+        return this.Out_PathStr;
     }
 
     @Override

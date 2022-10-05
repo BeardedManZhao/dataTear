@@ -11,24 +11,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * HDFS数据读取组件，使用BZIP2算法进行数据解码读取，与BZIP2数据的数据输出是相互对应的
+ * HDFS数据读取组件，使用BZIP2算法进行数据解码读取，与BZIP2数据的数据输入是相互对应的
  * <p>
- * The HDFS data reading component uses the BZIP 2 algorithm for data decoding and reading, which corresponds to the data output of the BZIP 2 data.
+ * The HDFS data reading component uses the BZIP 2 algorithm for data decoding and reading, which corresponds to the data input of the BZIP 2 data.
  *
  * @see zhao.io.dataTear.dataOp.dataTearRW.hdfs.HDFSWriterBZIP2
  */
 public class HDFSReaderBZIP2 extends Reader {
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    protected final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     Path In_path;
-    String In_Pathstr;
+    String In_PathStr;
 
-    public HDFSReaderBZIP2(FileSystem fileSystem, Path in_path, String in_Pathstr) {
+    public HDFSReaderBZIP2(FileSystem fileSystem, Path in_path, String in_PathStr) {
         try {
             setInputStream(fileSystem.open(in_path));
             In_path = in_path;
-            In_Pathstr = in_Pathstr;
+            In_PathStr = in_PathStr;
         } catch (IOException e) {
-            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_Pathstr + ",错误原因：" + e);
+            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_PathStr + ",错误原因：" + e);
             e.printStackTrace(System.err);
         }
     }

@@ -1,17 +1,25 @@
-#  ![image](https://user-images.githubusercontent.com/113756063/193436880-7a0ee80e-dc44-485d-863e-d9f2133dc79f.png) ![Customized data io components title](https://user-images.githubusercontent.com/113756063/193436899-93f6e437-c540-4f31-8290-5e840998ac63.png)
+# ![image](https://user-images.githubusercontent.com/113756063/193436880-7a0ee80e-dc44-485d-863e-d9f2133dc79f.png) ![Customized data io components title](https://user-images.githubusercontent.com/113756063/193436899-93f6e437-c540-4f31-8290-5e840998ac63.png)
 
+-
 
-- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
+切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
 
-DataTear supports loading data io components in the constructor. For different needs, you can pass in your component instantiation object here, and DataTear will use the components you provide to perform data io operations.
+DataTear supports loading data io components in the constructor. For different needs, you can pass in your component
+instantiation object here, and DataTear will use the components you provide to perform data io operations.
 
-In Data Tear, the two main classes are DTMaster and DTRead. When these two components are instantiated, you can selectively import data io components. Before this, you need to set the data output mode of DTMaster to "DataOutputFormat. UDT".
+In Data Tear, the two main classes are DTMaster and DTRead. When these two components are instantiated, you can
+selectively import data io components. Before this, you need to set the data output mode of DTMaster to "
+DataOutputFormat. UDT".
 ![image](https://user-images.githubusercontent.com/113756063/193394129-1dbf3983-5e8d-461b-82ec-398c6860a2b1.png)
 
 - Implement data output components
 
-  When the DTMaster data output mode is "DataOutputFormat. UDT", it will automatically use the interface you passed in during construction to obtain data output objects from the interface. For details, see:[W_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/W_UDF.java)
-The formal parameter of the run method in the interface is the data output directory. All you need to do is construct a data flow component through this data output directory. The following is an example.
+  When the DTMaster data output mode is "DataOutputFormat. UDT", it will automatically use the interface you passed in
+  during construction to obtain data output objects from the interface. For details,
+  see:[W_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/W_UDF.java)
+  The formal parameter of the run method in the interface is the data output directory. All you need to do is construct
+  a data flow component through this data output directory. The following is an example.
+
 ```
 package example.core;
 
@@ -30,8 +38,11 @@ public class MyDataAssembly implements W_UDF {
     }
 }
 ```
-- Load custom data output components
-  After we have implemented a data output component, we can directly integrate the component into the DTMaster through the construction parameters, so that the DTMaster will use our customized component to write data!!! The following is the sample source code for integrating components into DTMaster.
+
+- Load custom data output components After we have implemented a data output component, we can directly integrate the
+  component into the DTMaster through the construction parameters, so that the DTMaster will use our customized
+  component to write data!!! The following is the sample source code for integrating components into DTMaster.
+
 ```
 package example.staticResource;
 
@@ -66,10 +77,14 @@ public class Test1 {
 ```
 
 - Implement data input components
-  
-  Our DTRead construction also requires an interface "R_UDF", which has almost the same function as "W_UDF", except that the data input component Reader is extracted from it. In DataTear, the Reader is the source of data and also the data reading class. For more information about "R_UDF", see:[R_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/R_UDF.java)
+
+  Our DTRead construction also requires an interface "R_UDF", which has almost the same function as "W_UDF", except that
+  the data input component Reader is extracted from it. In DataTear, the Reader is the source of data and also the data
+  reading class. For more information about "R_UDF",
+  see:[R_UDF.java](https://github.com/BeardedManZhao/dataTear/blob/main/src_code/src/main/java/zhao/io/dataTear/atzhaoPublic/R_UDF.java)
 
 Next is the implementation example of our data input component.
+
 ```
 package example.core;
 
@@ -86,9 +101,12 @@ public class MyDataAssembly implements R_UDF {
     }
 }
 ```
+
 - Load custom data entry components
-  
-  After the component is implemented, we can directly provide the component to the DTRead. The specific steps are similar to those of the DTMaster. The example code is as follows
+
+  After the component is implemented, we can directly provide the component to the DTRead. The specific steps are
+  similar to those of the DTMaster. The example code is as follows
+
 ```
 package example.staticResource;
 
@@ -119,4 +137,7 @@ public class Test1 {
     }
 }
 ```
-- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)
+
+-
+
+切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Customized%20data%20io%20components-Chinese.md)

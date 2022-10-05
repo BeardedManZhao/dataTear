@@ -11,18 +11,17 @@ import java.io.IOException;
 import java.util.zip.ZipInputStream;
 
 public class HDFSReaderZIP extends Reader {
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    protected final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     Path In_path;
-    String In_Pathstr;
+    String In_PathStr;
 
-    public HDFSReaderZIP(FileSystem fileSystem, Path in_path, String in_Pathstr, String charset) {
+    public HDFSReaderZIP(FileSystem fileSystem, Path in_path, String in_PathStr, String charset) {
         try {
             setInputStream(fileSystem.open(in_path));
             In_path = in_path;
-            In_Pathstr = in_Pathstr;
-//            setCharset(charset);
+            In_PathStr = in_PathStr;
         } catch (IOException e) {
-            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_Pathstr + ",错误原因：" + e);
+            logger.error("组件：" + this.getClass().getName() + " 启动数据流时出现异常！目标数据：" + in_PathStr + ",错误原因：" + e);
             e.printStackTrace(System.err);
         }
     }
@@ -69,8 +68,8 @@ public class HDFSReaderZIP extends Reader {
     }
 
     /**
-     * @param data 需要解压的数组
-     * @return 解压之后的数组
+     * @param data 需要解压的数组  Array to be decompressed
+     * @return 解压之后的数组  Array after decompression
      */
     private byte[] unZip(byte[] data) {
         byte[] b = null;

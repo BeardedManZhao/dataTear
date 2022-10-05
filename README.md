@@ -1,43 +1,48 @@
 # ![image](https://user-images.githubusercontent.com/113756063/191922682-384a6cd0-684d-4ca0-b442-9352834b036f.png) dataTear
 
- - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
- - knowledge base
-<a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base.md">
- <img src = "https://user-images.githubusercontent.com/113756063/193392471-91f12eba-b839-4801-b82d-6f5f55ef9a37.png"/>
-</a>
+- 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
+- knowledge base
+  <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/knowledge%20base.md">
+  <img src = "https://user-images.githubusercontent.com/113756063/193392471-91f12eba-b839-4801-b82d-6f5f55ef9a37.png"/>
+  </a>
 
- - dataTear
+- dataTear
 
- Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary data reading operations..
-  
-  - MAVEN dependent
-  
-    Maven repository url:  https://s01.oss.sonatype.org/content/repositories/snapshots
-    
-        <repositories>
-            <repository>
-                <id>a</id>
-                <name>sonatype</name>
-                <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-            </repository>
-        </repositories>
-    
-        <dependencies>
-            <dependency>
-                <groupId>io.github.BeardedManZhao</groupId>
-                <artifactId>dataTear</artifactId>
-                <version>1.4-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-  
- - Example of use
- 
-    The following is an example of reading and writing the dataTear file. The master is the data output component, and the Reader is the data reading component. The hyperinterfaces of these two components are the same, which is more flexible! The parameters can be set in chain mode. Of course, you can also set them step by step, providing strong flexibility. Please refer to the following main function code document for specific usage!
- 
+  Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary
+  data reading operations.
+
+- MAVEN dependent
+
+  Maven repository url:  https://s01.oss.sonatype.org/content/repositories/snapshots
+
+      <repositories>
+          <repository>
+              <id>a</id>
+              <name>sonatype</name>
+              <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+          </repository>
+      </repositories>
+
+      <dependencies>
+          <dependency>
+              <groupId>io.github.BeardedManZhao</groupId>
+              <artifactId>dataTear</artifactId>
+              <version>1.4-SNAPSHOT</version>
+          </dependency>
+      </dependencies>
+
+- Example of use
+
+  The following is an example of reading and writing the dataTear file. The master is the data output component, and the
+  Reader is the data reading component. The hyper-interfaces of these two components are the same, which is more
+  flexible! The parameters can be set in chain mode. Of course, you can also set them step by step, providing strong
+  flexibility. Please refer to the following main function code document for specific usage!
+
 - Full API Example
- 
-The API calls here are relatively complete, and the functions used are relatively comprehensive. You can use the following API calls for integrated development.
- 
+
+The API calls here are relatively complete, and the functions used are relatively comprehensive. You can use the
+following API calls for integrated development.
+
     public static void main(String[] args) throws IOException {
             BasicConfigurator.configure();
             Date date = new Date();
@@ -79,10 +84,12 @@ The API calls here are relatively complete, and the functions used are relativel
         public static boolean runRW(RW rw) throws IOException {
             return rw.openStream() && rw.op_Data() && rw.closeStream();
     }
-    
+
 - The simplest API example
-     
- If your customization requirements for functions are not so strong, this API call will be more suitable for you. It sets the necessary parameters. Note the data output mode here. If you need to call custom components or data components in the algorithm library, you need to change this mode to "UDT".
+
+If your customization requirements for functions are not so strong, this API call will be more suitable for you. It sets
+the necessary parameters. Note the data output mode here. If you need to call custom components or data components in
+the algorithm library, you need to change this mode to "UDT".
 
     public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
@@ -107,19 +114,25 @@ The API calls here are relatively complete, and the functions used are relativel
 
         System.out.println(reader.getDataString());
     }
-    
- - DTMaster component output mode
- 
- ![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
- - built_in
-  
-  The mode of using the built-in data output component is equivalent to the data output component of "LOCAL_TEXT". In this mode, you do not need to load the data output component. However, the disadvantage is that when using the built-in data component output mode, you can only use "LOCAL_TEXT" for data output. The setting method is shown in the following figure.
- 
+
+- DTMaster component output mode
+
+![image](https://user-images.githubusercontent.com/113756063/191901173-5b01ca42-b2ec-461a-99dc-106a6b711eb7.png)
+
+- built_in
+
+The mode of using the built-in data output component is equivalent to the data output component of "LOCAL_TEXT". In this
+mode, you do not need to load the data output component. However, the disadvantage is that when using the built-in data
+component output mode, you can only use "LOCAL_TEXT" for data output. The setting method is shown in the following
+figure.
+
 ![image](https://user-images.githubusercontent.com/113756063/191903087-8d3e70d3-f25e-4a6a-a55d-153a2d7a4c1f.png)
 
- - UDF
+- UDF
 
- UDF is also a user-defined data output mode. In this mode, you must load a data output component when instantiating the DTMaster. The loading of this data component can be extracted from the algorithm library or directly implemented by yourself. The following is an example of calling the local GZIP data output component in the algorithm library.
+UDF is also a user-defined data output mode. In this mode, you must load a data output component when instantiating the
+DTMaster. The loading of this data component can be extracted from the algorithm library or directly implemented by
+yourself. The following is an example of calling the local GZIP data output component in the algorithm library.
 ![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
 
- - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)
+- 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)

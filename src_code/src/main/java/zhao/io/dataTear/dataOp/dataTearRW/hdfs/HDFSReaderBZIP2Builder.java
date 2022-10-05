@@ -79,9 +79,9 @@ public class HDFSReaderBZIP2Builder implements Builder<HDFSReaderBZIP2> {
     }
 
     /**
-     * 直接通过FileSystem对象构建输出组件，这个是非常推荐的方法
+     * 直接通过FileSystem对象构建输入组件，这个是非常推荐的方法
      * <p>
-     * Build the output component directly from the File System object, this is a very recommended method
+     * Build the input component directly from the File System object, this is a very recommended method
      *
      * @param fileSystem HDFS file System
      * @return 链
