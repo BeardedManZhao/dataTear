@@ -16,3 +16,8 @@
   <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS-Chinese.md">
   <img src = "https://user-images.githubusercontent.com/113756063/193498369-57a871a2-0e31-4791-9e25-95bbc302ca6d.png"/>
   </a>
+  
+- Data Tear 操作DataBase
+  <a href="https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md">
+  <img src = "https://user-images.githubusercontent.com/113756063/194055931-1e6a9e72-83df-42b8-99d9-8d422fb8d4f6.png"/>
+  </a>
