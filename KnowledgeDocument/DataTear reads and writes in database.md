@@ -1,6 +1,6 @@
-# ![logo]() ![titleC]()
+# ![image](https://user-images.githubusercontent.com/113756063/194054780-3c6e7e39-1a93-459f-8f13-74dd14ce5b88.png) ![image](https://user-images.githubusercontent.com/113756063/194055266-187c1237-6dc4-4154-8d35-ef55012c847b.png)
 
-- 切换至 [中文文档]()
+- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md)
 
 ### Build and get Data Tears in the database
 
@@ -13,7 +13,7 @@ improve the problem of excessive table data in the database.
 
 If the amount of data is not very large, there may be a situation of "wasting resources". In Data Tear, the schema of
 the database io component is as follows
-![DBIO]Image()
+![image](https://user-images.githubusercontent.com/113756063/194054513-8f77fb03-1858-4d0a-8157-d763d50d5e16.png)
 
 ### Example API call - DataBaseWriter
 
@@ -129,4 +129,4 @@ public class Test {
 }
 ```
 
-- 切换至 [中文文档]()
+- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md)
