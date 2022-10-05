@@ -16,3 +16,8 @@ Here you can get more detailed information about this framework.
   <a href="https://github.com/BeardedManZhao/dataTear/blob/main/KnowledgeDocument/Data%20Tear%20Operation%20HDFS.md">
   <img src = "https://user-images.githubusercontent.com/113756063/193498197-f3bcb71b-ac2c-4d1e-90c7-c7023fdbeb20.png"/>
   </a>
+
+- Data Tear Operation DataBase
+  <a href="https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md">
+  <img src = "https://user-images.githubusercontent.com/113756063/194056001-258c9603-3f90-4e52-93f2-3905e369e3e2.png"/>
+  </a>
