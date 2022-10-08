@@ -78,7 +78,13 @@ public class DTMaster implements RW {
     private boolean useSynchronization = true;
 
     /**
-     * 不使用自定义的数据输出组件构造一个DTMaster
+     * 使用内置的数据输出组件构造一个DTMaster
+     * <p>
+     * Construct a DT Master using built-in data output components
+     *
+     * @apiNote 该无参构建DTMaster的方式从1.4.2版本开始支持，在之前的版本您想要使用此功能，需要通过"DTMaster(W_UDF udf)"进行构造，调用了该方法之后，您将不允许设置该组件的"WriterFormat"
+     * <p>
+     * This method of constructing DTMaster without parameters is supported from version 1.4.2. If you want to use this function in previous versions, you need to construct it through "DTMaster(W_UDF udf)". After calling this method, you will not be allowed to set this function. The component's "WriterFormat"
      */
     public DTMaster() {
         this.udf = null;
@@ -88,9 +94,13 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 构建DataTear写数据组件 同时也是DataTearMaster
+     * 构建DataTear写数据组件 是DataTear写数据的组件，该组件中采用链式设置各个参数，您可以根据实际情况进行调用。
+     * <p>
+     * Build DataTear data writing component It is the data writing component of DataTear. This component adopts chained setting of various parameters, and you can call it according to the actual situation.
      *
-     * @param udf W_UDF接口实现类 其中代表的是写数据组件的实现, 您可以使用Lambda的方式将数据组件从此接口中返回，本类将会去提取组件
+     * @param udf W_UDF接口实现类 其中的run应返回一个写数据的实现, 您可以使用Lambda的方式将数据组件从此接口中返回，本类将会去提取组件。
+     *            <p>
+     *            W_UDF interface implementation class The run should return an implementation of writing data. You can use Lambda to return data components from this interface, and this class will extract components.
      */
     public DTMaster(W_UDF udf) {
         this.udf = udf;
@@ -99,15 +109,26 @@ public class DTMaster implements RW {
 
     /**
      * @return 是否使用同步的方式写数据，默认是true
+     * <p>
+     * Whether to use synchronous way to write data, the default is true.
+     * @apiNote 每一个数据碎片的输出是并发式的，效率很高，针对并发输出的异同步，您可以根据实际情况进行设置。
+     * <p>
+     * The output of each data fragment is concurrent, with high efficiency. You can set the asynchronous output of the concurrent output according to the actual situation.
      */
     public boolean isUseSynchronization() {
         return useSynchronization;
     }
 
     /**
-     * 设置写数据的异同模式 默认是true
+     * 调用此方法设置写数据的异步或同步的并发模式 默认是true，如果您追求效率，那么您可以选择异步，如果您追求代码中的安全性，那么您可以选择同步。
+     * <p>
+     * Call this method to set the asynchronous or synchronous concurrency mode of writing data. The default is true
+     * <p>
+     * If you are after efficiency then you can choose async, if you are after safety in your code then you can choose synchronous.
      *
      * @param useSynchronization 是否使用同步写数据的布尔值 true 代表使用同步
+     *                           <p>
+     *                           Whether to use synchronization to write data boolean true means use synchronization
      * @return 链
      */
     public DTMaster setUseSynchronization(boolean useSynchronization) {
@@ -116,9 +137,13 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 获取输出数据的字符集对象
+     * 获取输出数据的字符集编码类型
+     * <p>
+     * Get the character set encoding type of the output data
      *
      * @return 输出DT数据使用的字符集
+     * <p>
+     * Character set used for output DT data
      */
     public String getCharset() {
         return charset;
@@ -129,6 +154,12 @@ public class DTMaster implements RW {
      * 为了在下一次读取的时候不会出错误，您可以选择性的使用本方法
      * <p>
      * 注意：如果您不指定，需要使用字符集的时候将默认使用utf-8
+     * <p>
+     * The code set that this component needs to use will not necessarily take effect, but when the code set needs to be used, the output character transcoding will be performed according to the code set class you specified!
+     * <p>
+     * In order to avoid errors in the next reading, you can use this method selectively.
+     * <p>
+     * Note: If you don't specify it, utf-8 will be used by default when you need to use the character set.
      *
      * @param charset 您输出的数据是什么编码集
      * @return 链
@@ -140,11 +171,13 @@ public class DTMaster implements RW {
 
 
     /**
-     * 自定义输出组件方法，强制实现，其中会自动使用该方法对接Writer接口，并将该方法运用，如果您使用的是自定义输出模式的话，如果您没有使用自定义的输出模式，那么该方法将不会被调用
+     * 自定义输出组件方法，强制实现，其中会自动使用该方法对接Writer接口，并将该方法运用，如果您使用的是自定义输出模式的话，如果您没有使用自定义的输出模式，那么该方法将不会被调用。
+     * <p>
+     * Custom output component method, mandatory implementation, which will automatically use this method to connect to the Writer interface, and use this method, if you are using a custom output mode, if you do not use a custom output mode, then this method not be called.
      *
-     * @param OUT_FilePath 转换结果输出路径
-     * @return 通过实现的方案获取到的输出流对象
-     * @throws IOException 自定义的流打开失败
+     * @param OUT_FilePath 转换结果输出路径  Conversion result output path
+     * @return 通过实现的方案获取到的输出流对象  The output stream object obtained through the implemented scheme
+     * @throws IOException 自定义的流打开失败  Custom stream open failed
      */
     protected OutputStream UDTOutputStream(String OUT_FilePath) throws IOException {
         return this.udf.run(OUT_FilePath);
@@ -154,6 +187,11 @@ public class DTMaster implements RW {
      * 通过自定义数据输入组件的方式进行数据的读取，如果使用了这个方法，那么之前的输入设置将会被忽略，框架会通过Reader提取数据，然后在输出
      * <p>
      * 平台中有内置的数据Reader组件，如果您有自定义数据输入的需求，您可以选择重写Reader类
+     * <p>
+     * <p>
+     * The data is read by customizing the data input component. If this method is used, the previous input settings will be ignored, the framework will extract the data through the Reader
+     * <p>
+     * there is a built-in data Reader component in the output platform. If You have a need for custom data input, you can choose to override the Reader class.
      *
      * @param reader 需要使用的读数据组件
      * @return 链
@@ -173,9 +211,11 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 设置数据输出的后的数据分隔符号，当数据输出之后，其结构也是一张表的，在最终DT的构建中是有列分隔符的
+     * 设置数据输出的后的数据分隔符号，当数据输出之后，其结构也是一张表的，在最终DT的构建中是有列分隔符的。
+     * <p>
+     * Set the data separator after the data output. When the data is output, its structure is also a table, and there are column separators in the final DT construction.
      *
-     * @param outSplit 输出的数据表中的符号 注意不是正则哦
+     * @param outSplit 输出的数据表中的符号 注意不是正则哦  Note that the symbols in the output data table are not regular
      * @return 链
      */
     public DTMaster setOutSplit(String outSplit) {
@@ -184,9 +224,11 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 设置需要输出的DT数据碎片数量，底层会通过标记数值，对该值取余，将数据输出到对应的文件数据碎片中
+     * 设置需要输出的DT数据碎片数量，底层会通过标记数值，对该值取余，将数据输出到对应的文件数据碎片中。
+     * <p>
+     * Set the number of DT data fragments to be output, the bottom layer will mark the value, take the remainder of the value, and output the data to the corresponding file data fragment.
      *
-     * @param fragmentationNum 您需要将文件拆分成多少数据碎片
+     * @param fragmentationNum 您需要将文件拆分成多少数据碎片  How many data fragments do you need to split the file into
      * @return 链式
      */
     public DTMaster setFragmentationNum(int fragmentationNum) {
@@ -196,8 +238,12 @@ public class DTMaster implements RW {
 
     /**
      * 设置需要用来构建索引的字段在列中的序号，从0开始排序，可以理解这个就是一个主键，它会作为索引和数据碎片进行关联
+     * <p>
+     * Set the serial number of the field that needs to be used to build the index in the column, starting from 0. It can be understood that this is a primary key, which will be used as an index to associate with data fragments
      *
      * @param primaryNum 设置主键在字段中的索引位置 从0开始生效 提取到的对应位置的主键数据将会作为非常重要的桥梁
+     *                   <p>
+     *                   Set the index position of the primary key in the field to take effect from 0. The extracted primary key data of the corresponding position will serve as a very important bridge
      * @return 链式
      */
     public DTMaster setPrimaryNum(int primaryNum) {
@@ -207,19 +253,23 @@ public class DTMaster implements RW {
 
     /**
      * 设置数据输入的列分割正则，会按照该正则将一份数据的字段分割出来。
+     * <p>
+     * Set the column division regularity of data input, and the fields of a piece of data will be divided according to the regularity.
      *
-     * @param splitrex 数据切分符
+     * @param splitRex 数据切分符  data splitter
      * @return 链
      */
-    public DTMaster setSplitrex(String splitrex) {
-        this.splitrex = splitrex;
+    public DTMaster setSplitrex(String splitRex) {
+        this.splitrex = splitRex;
         return this;
     }
 
     /**
-     * 通过自定义的数据输入组件，获取数据，注意 如果该选项为UDF内置，那么必须要使用setReader方法设置数据输入组件，灵活性更强
+     * 设置数据的输入模式，获取数据，注意 如果该选项为UDT，那么必须要使用setReader方法设置数据输入组件。
+     * <p>
+     * Set the data input mode and get the data. Note that if this option is UDT, you must use the setReader method to set the data input component.
      *
-     * @param dataSourceFormat 是否使用自定义的数据输入组件 默认为使用自定义组件
+     * @param dataSourceFormat 是否使用自定义的数据输入组件 默认为使用自定义组件  Whether to use a custom data input component The default is to use a custom component
      * @return 链
      * @see Reader
      */
@@ -229,9 +279,13 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 通过自定义的数据输出组件，获取数据
+     * 设置数据的输出模式，默认就是UDT模式
+     * <p>
+     * Set the output mode of the data, the default is UDT mode
      *
      * @param dataSinkFormat 是否使用自定义的数据输入组件 默认为是
+     *                       <p>
+     *                       Whether to use a custom data input component default is yes
      * @return 链
      */
     public DTMaster WriterFormat(DataOutputFormat dataSinkFormat) {
@@ -250,8 +304,10 @@ public class DTMaster implements RW {
 
     /**
      * 通过文件对象的形式，设置需要读取的文件，setIn_File 与 setIn_Path 与 setInputStream 一般来说要设置其中的一个，具体是否需要设置，还需要看实现的子类们是如何获取
+     * <p>
+     * Set the file to be read in the form of a file object. Generally, setIn_File, setIn_Path and setInputStream need to set one of them. Whether it needs to be set depends on how the subclasses of the implementation obtain it.
      *
-     * @param in_FilePath 被读取的文件路径
+     * @param in_FilePath 被读取的文件路径 file path to be read
      * @return 链
      */
     public DTMaster setIn_FilePath(String in_FilePath) {
@@ -276,8 +332,10 @@ public class DTMaster implements RW {
 
     /**
      * 该方法是对于DT输出路径的描述，需要指定的是一个目录，当启动opData方法的时候，框架将会自动的将该目录下面的文件全部刷新，然后构建DT目录。
+     * <p>
+     * This method is a description of the DT output path. A directory needs to be specified. When the op Data method is started, the framework will automatically refresh all the files under the directory, and then build the DT directory.
      *
-     * @param OUT_FilePath DT路径构建目录
+     * @param OUT_FilePath DT路径构建目录  DT path build directory
      * @return 链
      */
     public DTMaster setOUT_FilePath(String OUT_FilePath) {
@@ -296,6 +354,8 @@ public class DTMaster implements RW {
 
     /**
      * 该方法是对DT输出路径的描述，需要指定的是一个目录的File类对象，当启动opData的死后，将会从File中提取输出路径。
+     * <p>
+     * This method is a description of the DT output path. It needs to specify a File class object of a directory. When the death of op Data is started, the output path will be extracted from the File.
      *
      * @param OUT_file 输出路径文件对象
      * @return 链
@@ -311,10 +371,12 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 内置的加载数据碎片的方法,该方法会被用来转换为RWTable需要的格式，最终会被添加的RWTable中
+     * 内置的加载数据碎片的方法,该方法会被用来转换为RWTable需要的格式，最终会被添加的RWTable中。
+     * <p>
+     * The built-in method of loading data fragments, this method will be used to convert the format required by the RW Table, and will eventually be added to the RW Table.
      *
-     * @param readData 需要被转换成表数组的数据String
-     * @return 数据表的二维数组
+     * @param readData 需要被转换成表数组的数据String  The data String that needs to be converted into a table array
+     * @return 数据表的二维数组  2D array of data tables
      */
     private ArrayList<String[]> loadData(String readData) {
         ArrayList<String[]> lines = new ArrayList<>();
@@ -325,9 +387,11 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 打开数据流，同时返回状态，这个数据流的获取会先判断是否是自定义的数据输入模式，如果是的话，将会打开reader的数据流
+     * 打开数据流，同时返回状态，这个数据流的获取会先判断是否是自定义的数据输入模式，如果是的话，将会打开reader的数据流。
+     * <p>
+     * Open the data stream and return the status at the same time. The acquisition of this data stream will first determine whether it is a custom data input mode. If so, the reader's data stream will be opened.
      *
-     * @return 是否成功打开数据流
+     * @return 是否成功打开数据流  Whether the data stream was successfully opened
      */
     @Override
     public boolean openStream() {
@@ -354,9 +418,11 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 操作数据的方法，这里是写数据，如果您是使用的Reader，那么这里将会提取Reader的结果数据
+     * 操作数据的方法，这里是写数据，如果您是使用的Reader，那么这里将会提取Reader的结果数据，然后将数据写出去。
+     * <p>
+     * The method of manipulating data, here is writing data, if you are using Reader, here will extract the result data of Reader, and then write the data out.
      *
-     * @return 是否成功完成写数据操作
+     * @return 写数据事件成功或失败。  write data succeeds or fails.
      */
     @Override
     public boolean op_Data() {
@@ -405,15 +471,17 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 将RWTable数据以DataTear的格式持久化到磁盘，同时将与之关联的数据碎片路径补全
+     * 将RWTable数据以DataTear的格式持久化到磁盘，同时将与之关联的数据碎片路径补全。
+     * <p>
+     * Persist RW Table data to disk in Data Tear format, and complete the associated data fragment path.
      *
-     * @param rwTable 关联的数据碎片对象
+     * @param rwTable 关联的数据碎片对象  Associated Data Fragment Object
      * @throws IOException 构造NameManager失败
      */
     protected void writerNameManagerandData(RWTable<String> rwTable) throws IOException {
         long startTimeMS = new Date().getTime();
         String NameManager_Path = OUT_FilePath + "/NameManager.NDT";
-        StringBuilder FragmentationsPath = new StringBuilder();
+        StringBuilder FragmentationPaths = new StringBuilder();
         boolean isNotUdf = dataOutputFormat == DataOutputFormat.built_in;
         DTWrite NameManagerOutStream = isNotUdf ? DTWrite.bulider().setPath(NameManager_Path).create() : new DTWrite(UDTOutputStream(NameManager_Path), NameManager_Path);
         CountDownLatch countDownLatch = new CountDownLatch(this.FragmentationNum);
@@ -427,7 +495,7 @@ public class DTMaster implements RW {
             try {
                 String FragmentationPath = OUT_FilePath + "/Fragmentation-" + finalFragmentationN + ".DT";
                 FragmentationOutputStream = isNotUdf ? DTWrite.bulider().setPath(FragmentationPath).create() : new DTWrite(UDTOutputStream(FragmentationPath), FragmentationPath);
-                FragmentationsPath.append(FragmentationOutputStream.getPath()).append("&");
+                FragmentationPaths.append(FragmentationOutputStream.getPath()).append("&");
                 new Thread(() -> {
                     try {
                         writerFragmentation(FragmentationOutputStream, finalFragmentationN, rwTable);
@@ -447,7 +515,7 @@ public class DTMaster implements RW {
             }
         }
         logger.info("开始绘制NameManager，并构建索引。");
-        String nameManagerData = (rwTable.superString() + FragmentationsPath + "\r\n" + "srcFile = " + In_FilePath + "\n");
+        String nameManagerData = (rwTable.superString() + FragmentationPaths + "\r\n" + "srcFile = " + In_FilePath + "\n");
         NameManagerOutStream.write(nameManagerData.getBytes(this.charset == null ? "utf-8" : this.charset));
         NameManagerOutStream.flush();
         NameManagerOutStream.close();
@@ -484,11 +552,11 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 将指定数据表的指定数据碎片的数据输出，这里用来将rwTable载入大屏输出流并输出，流需要在该方法的调用者中进行开启或关闭
+     * 将RWTable中的碎片提取出来，并通过"FragmentationOutStream"将数据写出去。
      *
-     * @param FragmentationOutStream 输出数据对象 用于指定数据输出路径
-     * @param rwTable                数据表对象
-     * @param FragmentationNum       数据碎片编号
+     * @param FragmentationOutStream 输出数据对象 用于指定数据输出路径  Output data object is used to specify the data output path
+     * @param rwTable                数据表对象  data table object
+     * @param FragmentationNum       数据碎片编号  data fragment number
      * @throws IOException 构造DT数据碎片失败
      */
     protected void writerDTFragmentation(Writer FragmentationOutStream, RWTable<String> rwTable, int FragmentationNum) throws IOException {
@@ -502,9 +570,11 @@ public class DTMaster implements RW {
     }
 
     /**
-     * 关闭通过内置或者自定义获取到的NameManager的数据输入流，对于数据的输出流，在opData中自动的被关闭
+     * 关闭通过内置或者自定义获取到的NameManager的数据输入流，对于数据的输出流，在opData中自动的被关闭。
+     * <p>
+     * Close the data input stream of the Name Manager obtained through built-in or custom, for the data output stream, it is automatically closed in op Data.
      *
-     * @return 是否关闭成功
+     * @return 关闭组件的成功或失败。  The success or failure of shutdown components.
      */
     @Override
     public boolean closeStream() {
