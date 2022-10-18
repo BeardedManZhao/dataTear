@@ -14,6 +14,7 @@
 
   Maven存储库 url:  https://s01.oss.sonatype.org/content/repositories/snapshots
 
+```
       <repositories>
           <repository>
               <id>a</id>
@@ -29,6 +30,7 @@
               <version>1.4-SNAPSHOT</version>
           </dependency>
       </dependencies>
+```
 
 - 使用示例
 
@@ -38,60 +40,64 @@
 
 此处的API调用相对完整，使用到的功能时比较全面的，您可以按照下面的API调用去进行集成开发。
 
+```java
+public class DataTearTest {
     public static void main(String[] args) throws IOException {
-            BasicConfigurator.configure();
-            Date date = new Date();
-            // 通过RW 将Master实例化
-            DTMaster dtMaster = new DTMaster(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).writeStream(s)) // 实例化时，可以将外界的数据组件对接到本类中，也可以直接调用RW接口从算法库中提取数据组件
-                    .ReadFormat(DataSourceFormat.built_in).WriterFormat(DataOutputFormat.UDT) // 设置数据输入与输出模式
-                    .setUseSynchronization(true) // 是否使用同步写数据，等待数据输出完成再结束
-                    .setIn_FilePath("D:\\互联网信息.txt") // 设置被读取的文件路径
-                    .setOUT_FilePath("C:\\Users\\4\\Desktop\\out") // 设置DataTear数据输出到哪个目录
-                    .setSplitrex(",") // 设置数据输入的列分隔符
-                    .setOutSplit(",") // 设置数据输出的列分隔符
-                    .setPrimaryNum(0) // 设置数据表中的主键索引，该索引列的数据将会被作为nameManager的一部分
-                    .setFragmentationNum(2); // 设置输出多少个数据碎片
-            // 运行组件
-            runRW(dtMaster);
-    
-            System.err.println("ok !  写数据耗时：" + (new Date().getTime() - date.getTime()) + "毫秒");
-    
-            /*TODO 数据组件分割 */
-    
-            Date date2 = new Date();
-            // 通过RW将Reader实例化
-            Reader dtRead = new DTRead(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).readStream(s)) // 实例化时，可以将外界的数据组件对接到本类中，也可以直接调用RW接口从算法库中提取数据组件
-                    .setPrimaryCharacteristic(data -> true) // 设置数据主键描述，满足该条件的主键所在数据碎片将会被读取
-                    .setUseMultithreading(true) // 设置是否使用同步读取
-                    .setMaxOutTimeMS(10000) // 设置数据读取最大超时时间（毫秒），超出时间将会立刻停止数据的读取
-                    .setIn_FilePath("C:\\Users\\4\\Desktop\\out\\NameManager.NDT"); // 设置被读取的NameManager路径
-            // 运行组件
-            runRW(dtRead);
-    
-            System.err.println("ok !  读数据耗时：" + (new Date().getTime() - date2.getTime()) + "毫秒");
-            System.err.println("源文件：" + dtRead.getSrcFile() + "\t创建时间：" + new Date(dtRead.getCreateDateMS()).toLocaleString());
-            System.err.println("数据行数：" + dtRead.getDataString().split("\n").length);
-        }
-    
-        /**
-         * 运行一个rw组件
-         */
-        public static boolean runRW(RW rw) throws IOException {
-            return rw.openStream() && rw.op_Data() && rw.closeStream();
-        }
+        BasicConfigurator.configure();
+        Date date = new Date();
+        // 通过RW 将Master实例化
+        DTMaster dtMaster = new DTMaster(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).writeStream(s)) // 实例化时，可以将外界的数据组件对接到本类中，也可以直接调用RW接口从算法库中提取数据组件
+                .ReadFormat(DataSourceFormat.built_in).WriterFormat(DataOutputFormat.UDT) // 设置数据输入与输出模式
+                .setUseSynchronization(true) // 是否使用同步写数据，等待数据输出完成再结束
+                .setIn_FilePath("D:\\互联网信息.txt") // 设置被读取的文件路径
+                .setOUT_FilePath("C:\\Users\\4\\Desktop\\out") // 设置DataTear数据输出到哪个目录
+                .setSplitrex(",") // 设置数据输入的列分隔符
+                .setOutSplit(",") // 设置数据输出的列分隔符
+                .setPrimaryNum(0) // 设置数据表中的主键索引，该索引列的数据将会被作为nameManager的一部分
+                .setFragmentationNum(2); // 设置输出多少个数据碎片
+        // 运行组件
+        runRW(dtMaster);
+
+        System.err.println("ok !  写数据耗时：" + (new Date().getTime() - date.getTime()) + "毫秒");
+
+        /*TODO 数据组件分割 */
+
+        Date date2 = new Date();
+        // 通过RW将Reader实例化
+        Reader dtRead = new DTRead(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).readStream(s)) // 实例化时，可以将外界的数据组件对接到本类中，也可以直接调用RW接口从算法库中提取数据组件
+                .setPrimaryCharacteristic(data -> true) // 设置数据主键描述，满足该条件的主键所在数据碎片将会被读取
+                .setUseMultithreading(true) // 设置是否使用同步读取
+                .setMaxOutTimeMS(10000) // 设置数据读取最大超时时间（毫秒），超出时间将会立刻停止数据的读取
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\out\\NameManager.NDT"); // 设置被读取的NameManager路径
+        // 运行组件
+        runRW(dtRead);
+
+        System.err.println("ok !  读数据耗时：" + (new Date().getTime() - date2.getTime()) + "毫秒");
+        System.err.println("源文件：" + dtRead.getSrcFile() + "\t创建时间：" + new Date(dtRead.getCreateDateMS()).toLocaleString());
+        System.err.println("数据行数：" + dtRead.getDataString().split("\n").length);
+    }
+
+    /**
+     * 运行一个rw组件
+     */
+    public static boolean runRW(RW rw) throws IOException {
+        return rw.openStream() && rw.op_Data() && rw.closeStream();
+    }
+}
+```
 
 - 最简单的API示例
 
-  如果您对于功能的定制需求没有这么强烈的话，这个API的调用会更加的适合您。它针对必要的参数进行了设置，注意这里的数据输出模式，如果您需要调用自定义的组件或者算法库中的数据组件，您需要将此模式更改为“UDT”。
-
-      public static void main(String[] args) throws IOException {
+```java
+public class DataTear {
+    public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
         // 配置数据输出类
         DTMaster dtMaster = new DTMaster(null)
-                .WriterFormat(DataOutputFormat.built_in) // 注意！！！这里如果不设置UDF，那么将会自动的使用 LOCAL_TEXT 模式写数据
+                .WriterFormat(DataOutputFormat.built_in) // be careful!!! If UDF is not set here, data will be automatically written in "LOCAL_TEXT" mode
                 .setPrimaryNum(0)
-                .setIn_FilePath("C:\\Users\\4\\Desktop\\数学建模\\附带文件\\test.txt") // 设置被转换文件的路径
-                .setOUT_FilePath("C:\\Users\\4\\Desktop\\数学建模\\out") // 设置转换之后的NM等文件的存储路径
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\mathematicalModeling\\Attached documents\\test.txt") // Set the path of the converted file
+                .setOUT_FilePath("C:\\Users\\4\\Desktop\\mathematicalModeling\\out") // Set the storage path of NM and other files after conversion
                 .setSplitrex("\\s+");
         dtMaster.openStream();
         dtMaster.op_Data();
@@ -100,13 +106,15 @@
         // 配置数据读取类
         Reader reader = new DTRead(InPath -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_TEXT).readStream(InPath))
                 .setPrimaryCharacteristic((data) -> true)
-                .setIn_FilePath("C:\\Users\\4\\Desktop\\数学建模\\out\\NameManager.NDT"); // 设置被读取文件的NM路径
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\mathematicalModeling\\out\\NameManager.NDT"); // Set the NM path of the read file
         reader.openStream();
         reader.op_Data();
         reader.closeStream();
 
         System.out.println(reader.getDataString());
-      }
+    }
+}
+```
 
 - DTMaster组件输出模式
 

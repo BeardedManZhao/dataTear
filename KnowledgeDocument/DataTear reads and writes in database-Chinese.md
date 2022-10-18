@@ -1,8 +1,7 @@
 # ![image](https://user-images.githubusercontent.com/113756063/194054780-3c6e7e39-1a93-459f-8f13-74dd14ce5b88.png) ![image](https://user-images.githubusercontent.com/113756063/194055826-316c183c-cbaa-4601-8cba-ee14233bc7df.png)
 
-
-
-- Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md)
+- Switch
+  to [English document](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md)
 
 ### 在数据库中构建与获取DataTear
 
@@ -124,4 +123,5 @@ public class Test {
 }
 ```
 
-- Switch to [English document](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md)
+- Switch
+  to [English document](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database.md)

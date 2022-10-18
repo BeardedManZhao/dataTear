@@ -40,7 +40,7 @@
 With a general understanding of the structure in the algorithm library, let's start with an example of our use: we want
 to compress a Data Tear file into a GZIP Data Tear file.
 
-```
+```java
 package example.staticResource;
 
 import org.apache.log4j.BasicConfigurator;

@@ -1,7 +1,7 @@
 # ![image](https://user-images.githubusercontent.com/113756063/194054780-3c6e7e39-1a93-459f-8f13-74dd14ce5b88.png) ![image](https://user-images.githubusercontent.com/113756063/194968502-5be2069f-96f0-4ace-a39e-c3bad5c61b00.png)
 
-
-- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md)
+-
+切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md)
 
 ### Build and get Data Tears in the database
 
@@ -130,4 +130,5 @@ public class Test {
 }
 ```
 
-- 切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md)
+-
+切换至 [中文文档](https://github.com/BeardedManZhao/dataTear/blob/core/KnowledgeDocument/DataTear%20reads%20and%20writes%20in%20database-Chinese.md)

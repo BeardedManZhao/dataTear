@@ -45,7 +45,7 @@ DataTear预先实现好的一些组件都会存储在算法库中，用户可以
 
 ### 使用算法库将一个本地文件转化到DataTear，并写到HDFS中
 
-```
+```java
 package example.staticResource;
 
 import org.apache.hadoop.conf.Configuration;
@@ -94,7 +94,7 @@ public class Test {
 
 ### 使用算法库读取HDFS中的一个DataTear文件
 
-```
+```java
 package example.staticResource;
 
 import org.apache.hadoop.conf.Configuration;

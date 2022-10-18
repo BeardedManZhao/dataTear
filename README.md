@@ -11,10 +11,9 @@
   Split into data fragments for data management. In this format, efficient reading can be achieved to avoid unnecessary
   data reading operations.
 
-- MAVEN dependent
+- MAVEN dependent Maven repository url: https://s01.oss.sonatype.org/content/repositories/snapshots
 
-  Maven repository url:  https://s01.oss.sonatype.org/content/repositories/snapshots
-
+```
       <repositories>
           <repository>
               <id>a</id>
@@ -30,6 +29,7 @@
               <version>1.4-SNAPSHOT</version>
           </dependency>
       </dependencies>
+```
 
 - Example of use
 
@@ -43,47 +43,52 @@
 The API calls here are relatively complete, and the functions used are relatively comprehensive. You can use the
 following API calls for integrated development.
 
+```java
+public class DataTearTest {
+
     public static void main(String[] args) throws IOException {
-            BasicConfigurator.configure();
-            Date date = new Date();
-            // Instantiate "Master" through RW， When instantiating, external data components can be integrated into this class, or the RW interface can be directly called to extract data components from the algorithm library
-            DTMaster dtMaster = new DTMaster(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).writeStream(s)) 
-                    .ReadFormat(DataSourceFormat.built_in).WriterFormat(DataOutputFormat.UDT) // Set data input and output mode
-                    .setUseSynchronization(true) // Whether to use synchronous data writing and wait for data output to complete
-                    .setIn_FilePath("D:\\InternetInformation.txt") // Set the read file path
-                    .setOUT_FilePath("C:\\Users\\4\\Desktop\\out") // Set the directory to which DataTear data is output
-                    .setSplitrex(",") // Set the column separator for data input
-                    .setOutSplit(",") // Set the column separator for data output
-                    .setPrimaryNum(0) // Set the primary key index in the data table. The data of the index column will be used as part of the nameManager
-                    .setFragmentationNum(2); // Set the number of output data fragments
-            // Running components
-            runRW(dtMaster);
-    
-            System.err.println("ok !  Time consuming to write data：" + (new Date().getTime() - date.getTime()) + "");
-    
-            /*TODO 数据组件分割 */
-    
-            Date date2 = new Date();
-            // Instantiate "DTRead" through RW， When instantiating, external data components can be integrated into this class, or the RW interface can be directly called to extract data components from the algorithm library
-            Reader dtRead = new DTRead(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).readStream(s))
-                    .setPrimaryCharacteristic(data -> true) // Set the data primary key description. The data fragment of the primary key meeting this condition will be read
-                    .setUseMultithreading(true) // Set whether to use synchronous read
-                    .setMaxOutTimeMS(10000) // Set the maximum timeout (ms) for data reading. If the timeout is exceeded, data reading will be stopped immediately
-                    .setIn_FilePath("C:\\Users\\4\\Desktop\\out\\NameManager.NDT"); // Set the read NameManager path
-            // Running components
-            runRW(dtRead);
-    
-            System.err.println("ok !  Time consuming to read data：" + (new Date().getTime() - date2.getTime()) + "millisecond");
-            System.err.println("source file：" + dtRead.getSrcFile() + "\tCreation time：" + new Date(dtRead.getCreateDateMS()).toLocaleString());
-            System.err.println("Number of data rows：" + dtRead.getDataString().split("\n").length);
-        }
-    
-        /**
-         * 运行一个rw组件
-         */
-        public static boolean runRW(RW rw) throws IOException {
-            return rw.openStream() && rw.op_Data() && rw.closeStream();
+        BasicConfigurator.configure();
+        Date date = new Date();
+        // Instantiate "Master" through RW， When instantiating, external data components can be integrated into this class, or the RW interface can be directly called to extract data components from the algorithm library
+        DTMaster dtMaster = new DTMaster(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).writeStream(s))
+                .ReadFormat(DataSourceFormat.built_in).WriterFormat(DataOutputFormat.UDT) // Set data input and output mode
+                .setUseSynchronization(true) // Whether to use synchronous data writing and wait for data output to complete
+                .setIn_FilePath("D:\\InternetInformation.txt") // Set the read file path
+                .setOUT_FilePath("C:\\Users\\4\\Desktop\\out") // Set the directory to which DataTear data is output
+                .setSplitrex(",") // Set the column separator for data input
+                .setOutSplit(",") // Set the column separator for data output
+                .setPrimaryNum(0) // Set the primary key index in the data table. The data of the index column will be used as part of the nameManager
+                .setFragmentationNum(2); // Set the number of output data fragments
+        // Running components
+        runRW(dtMaster);
+
+        System.err.println("ok !  Time consuming to write data：" + (new Date().getTime() - date.getTime()) + "");
+
+        /*TODO 数据组件分割 */
+
+        Date date2 = new Date();
+        // Instantiate "DTRead" through RW， When instantiating, external data components can be integrated into this class, or the RW interface can be directly called to extract data components from the algorithm library
+        Reader dtRead = new DTRead(s -> RW.getDT_UDF_Stream(DT_builtIn_UDF.LOCAL_GZIP).readStream(s))
+                .setPrimaryCharacteristic(data -> true) // Set the data primary key description. The data fragment of the primary key meeting this condition will be read
+                .setUseMultithreading(true) // Set whether to use synchronous read
+                .setMaxOutTimeMS(10000) // Set the maximum timeout (ms) for data reading. If the timeout is exceeded, data reading will be stopped immediately
+                .setIn_FilePath("C:\\Users\\4\\Desktop\\out\\NameManager.NDT"); // Set the read NameManager path
+        // Running components
+        runRW(dtRead);
+
+        System.err.println("ok !  Time consuming to read data：" + (new Date().getTime() - date2.getTime()) + "millisecond");
+        System.err.println("source file：" + dtRead.getSrcFile() + "\tCreation time：" + new Date(dtRead.getCreateDateMS()).toLocaleString());
+        System.err.println("Number of data rows：" + dtRead.getDataString().split("\n").length);
     }
+
+    /**
+     * 运行一个rw组件
+     */
+    public static boolean runRW(RW rw) throws IOException {
+        return rw.openStream() && rw.op_Data() && rw.closeStream();
+    }
+}
+```
 
 - The simplest API example
 
@@ -91,6 +96,8 @@ If your customization requirements for functions are not so strong, this API cal
 the necessary parameters. Note the data output mode here. If you need to call custom components or data components in
 the algorithm library, you need to change this mode to "UDT".
 
+```java
+public class DataTear {
     public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
         // Configure Data Output Class
@@ -114,6 +121,8 @@ the algorithm library, you need to change this mode to "UDT".
 
         System.out.println(reader.getDataString());
     }
+}
+```
 
 - DTMaster component output mode
 
@@ -136,18 +145,27 @@ yourself. The following is an example of calling the local GZIP data output comp
 ![image](https://user-images.githubusercontent.com/113756063/191902999-d3c19d66-332e-4140-91bf-05d0580fd008.png)
 
 # directory structure
+
 ### KnowledgeDocument
-The knowledge base file archive is used for the storage task of DataTear series knowledge documents. You can access it directly through the documents on the home page. There is no need to enter here directly. It is messy internally.
+
+The knowledge base file archive is used for the storage task of DataTear series knowledge documents. You can access it
+directly through the documents on the home page. There is no need to enter here directly. It is messy internally.
 
 ### src_code
-The source code storage directory of DataTear, where you can view the relevant source code of DataTear. Of course, here is the latest source code, which you can use to compile, so that you can obtain the latest version.
 
-Note: The latest version is often unstable, so we recommend you to use the version that has been released for a long time!
+The source code storage directory of DataTear, where you can view the relevant source code of DataTear. Of course, here
+is the latest source code, which you can use to compile, so that you can obtain the latest version.
+
+Note: The latest version is often unstable, so we recommend you to use the version that has been released for a long
+time!
 
 ### README-Chinese.md
-The Chinese version of the DaraTear homepage document. You can switch languages on the homepage default page to access this file.
+
+The Chinese version of the DaraTear homepage document. You can switch languages on the homepage default page to access
+this file.
 
 ### README.md
+
 The default version of the DaraTear homepage document. You can directly access this file on the homepage!
 
 - 切换至：[中文文档](https://github.com/BeardedManZhao/dataTear/blob/main/README-Chinese.md)

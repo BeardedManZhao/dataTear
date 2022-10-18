@@ -20,7 +20,7 @@ DataOutputFormat. UDT".
   The formal parameter of the run method in the interface is the data output directory. All you need to do is construct
   a data flow component through this data output directory. The following is an example.
 
-```
+```java
 package example.core;
 
 import zhao.io.dataTear.atzhaoPublic.W_UDF;
@@ -43,7 +43,7 @@ public class MyDataAssembly implements W_UDF {
   component into the DTMaster through the construction parameters, so that the DTMaster will use our customized
   component to write data!!! The following is the sample source code for integrating components into DTMaster.
 
-```
+```java
 package example.staticResource;
 
 import example.core.MyDataAssembly;
@@ -85,7 +85,7 @@ public class Test1 {
 
 Next is the implementation example of our data input component.
 
-```
+```java
 package example.core;
 
 import zhao.io.dataTear.atzhaoPublic.R_UDF;
@@ -107,7 +107,7 @@ public class MyDataAssembly implements R_UDF {
   After the component is implemented, we can directly provide the component to the DTRead. The specific steps are
   similar to those of the DTMaster. The example code is as follows
 
-```
+```java
 package example.staticResource;
 
 import example.core.MyDataAssembly;

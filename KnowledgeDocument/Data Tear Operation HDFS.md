@@ -53,7 +53,7 @@ API dependencies first. Note that the versions of each component should be consi
 
 ### Use the algorithm library to convert a local file to DataTear and write it to HDFS
 
-```
+```java
 package example.staticResource;
 
 import org.apache.hadoop.conf.Configuration;
@@ -102,7 +102,7 @@ public class Test {
 
 ### Use the algorithm library to read a DataTear file in HDFS
 
-```
+```java
 package example.staticResource;
 
 import org.apache.hadoop.conf.Configuration;

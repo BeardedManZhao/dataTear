@@ -28,7 +28,7 @@
 
 大致了解了下算法库中的构造，下面开始我们的一个使用示例：我们希望将一个DataTear的文件压缩为GZIP的DataTear的文件。
 
-```
+```java
 package example.staticResource;
 
 import org.apache.log4j.BasicConfigurator;
