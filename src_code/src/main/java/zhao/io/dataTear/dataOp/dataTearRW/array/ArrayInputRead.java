@@ -325,7 +325,7 @@ public class ArrayInputRead extends Reader {
      */
     @Override
     @Deprecated
-    public Reader toTobject() {
+    public Reader toToObject() {
         return this;
     }
 

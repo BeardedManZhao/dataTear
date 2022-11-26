@@ -108,7 +108,7 @@ public class HDFSWriterBZIP2 extends Writer {
     }
 
     @Override
-    public Writer toTobject() {
+    public Writer toToObject() {
         return this;
     }
 }

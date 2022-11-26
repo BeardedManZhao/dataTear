@@ -99,7 +99,7 @@ public class HDFSWriter extends Writer {
     }
 
     @Override
-    public Writer toTobject() {
+    public Writer toToObject() {
         return this;
     }
 }

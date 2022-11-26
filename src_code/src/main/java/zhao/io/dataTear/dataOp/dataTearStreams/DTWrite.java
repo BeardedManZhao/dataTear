@@ -54,7 +54,7 @@ public class DTWrite extends Writer {
     }
 
     @Override
-    public DTWrite toTobject() {
+    public DTWrite toToObject() {
         return this;
     }
 }

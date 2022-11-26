@@ -18,7 +18,7 @@ import java.io.*;
  * 该类不需要定制字符集，因为读取数据的时候会按照原先输出DT的字符集进行智能编码集获取。
  * 与DTMaster同属于一个接口，读写API的调用统一
  */
-public class Reader implements RW, Product<Reader> {
+public class Reader extends InputStream implements RW, Product<Reader> {
     protected final static Logger logger = LoggerFactory.getLogger("DataTear_LoadUDFStream");
     protected long CreateDateMS = 0b0;
     private File In_File;
@@ -197,8 +197,8 @@ public class Reader implements RW, Product<Reader> {
      */
     @Override
     @Deprecated
-    public Reader toTobject() {
-        logger.warn("您使用的 toTobject() 方法在Reader类中毫无作用，不会影响程序，但是并不建议使用。");
+    public Reader toToObject() {
+        logger.warn("您使用的 toToObject() 方法在Reader类中毫无作用，不会影响程序，但是并不建议使用。");
         return this;
     }
 
@@ -208,6 +208,7 @@ public class Reader implements RW, Product<Reader> {
      * @return -1
      * @throws IOException opData的异常
      */
+    @Override
     @Deprecated
     public int read() throws IOException {
         op_Data();
@@ -218,6 +219,7 @@ public class Reader implements RW, Product<Reader> {
      * @return 流中的数据大概有多少
      * @throws IOException 流估算异常
      */
+    @Override
     public int available() throws IOException {
         return inputStream.available();
     }

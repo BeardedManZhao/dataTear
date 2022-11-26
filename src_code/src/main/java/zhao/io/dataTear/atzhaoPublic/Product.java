@@ -9,5 +9,5 @@ public interface Product<T> {
     /**
      * @return 产品内部的被包装类
      */
-    T toTobject();
+    T toToObject();
 }

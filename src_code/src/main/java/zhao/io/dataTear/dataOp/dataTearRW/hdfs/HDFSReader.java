@@ -45,7 +45,7 @@ public class HDFSReader extends Reader {
     }
 
     @Override
-    public HDFSReader toTobject() {
+    public HDFSReader toToObject() {
         return this;
     }
 

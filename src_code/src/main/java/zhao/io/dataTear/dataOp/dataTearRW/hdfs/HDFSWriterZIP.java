@@ -88,7 +88,7 @@ public class HDFSWriterZIP extends Writer {
     }
 
     @Override
-    public Writer toTobject() {
+    public Writer toToObject() {
         return this;
     }
 

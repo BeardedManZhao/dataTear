@@ -173,7 +173,7 @@ public class DataBaseWriter extends Writer {
 
     @Override
     @Deprecated
-    public Writer toTobject() {
+    public Writer toToObject() {
         return this;
     }
 
