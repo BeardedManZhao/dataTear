@@ -15,15 +15,17 @@ import java.util.HashSet;
  */
 public class RWTable<T> extends NameManager<T> implements RWData<T[]> {
     private final HashMap<Integer, DataFragmentation> FragmentationMap = new HashMap<>();
+    private final int threshold;
     private int primaryKeyNum = 0;
     private long TableCount = 0L;
 
-    public RWTable() {
+    public RWTable(int threshold) {
         // 同步数据块信息
         for (int n = 0; n < getFragmentationNum(); n++) {
             FragmentationMap.put(n, new DataFragmentation(n));
             getDataFragmentation_Manager().computeIfAbsent(n, k -> new HashSet<>());
         }
+        this.threshold = threshold;
     }
 
     /**
@@ -90,13 +92,13 @@ public class RWTable<T> extends NameManager<T> implements RWData<T[]> {
     public void putData(T[] data) {
         // 构建这一行数据的行编号
         int lineNum = (int) TableCount;
-        // 取余轮询计算碎片编号
-        int FragmentationNum = lineNum % getFragmentationNum();
+        // 偏移量分散余数
+        int FragmentationNum = lineNum - (lineNum >> threshold << threshold);
         // 将主键数据添加到nameManager对应编号的注解列表中
         getDataFragmentation_Manager().get(FragmentationNum).add(data[primaryKeyNum]);
         // 将主键数据对应的行数据，添加到对应碎片编号的类中进行存储
         this.FragmentationMap.get(FragmentationNum).addRowData((String[]) data);
-        TableCount += 0b1;
+        ++TableCount;
     }
 
     /**

@@ -6,7 +6,7 @@
     <!--gav信息-->
     <groupId>io.github.BeardedManZhao</groupId>
     <artifactId>dataTear</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.2</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

@@ -62,6 +62,7 @@ public class DTMaster implements RW {
     private final Logger logger = LoggerFactory.getLogger("DataTear_Core");
     private final W_UDF udf;
     private final boolean useNonparametricStructure;
+    private int threshold = 2;
     private String In_FilePath;
     private File In_File;
     private String OUT_FilePath;
@@ -70,10 +71,10 @@ public class DTMaster implements RW {
     private DataSourceFormat dataSourceFormat = DataSourceFormat.built_in;
     private DataOutputFormat dataOutputFormat = DataOutputFormat.built_in;
     private Reader reader;
-    private String splitrex = "\\s+";
+    private String splitRex = "\\s+";
     private String outSplit = ",";
     private int primaryNum = 0;
-    private int FragmentationNum = 3;
+    private int FragmentationNum = 4;
     private String charset;
     private boolean useSynchronization = true;
 
@@ -227,12 +228,22 @@ public class DTMaster implements RW {
      * 设置需要输出的DT数据碎片数量，底层会通过标记数值，对该值取余，将数据输出到对应的文件数据碎片中。
      * <p>
      * Set the number of DT data fragments to be output, the bottom layer will mark the value, take the remainder of the value, and output the data to the corresponding file data fragment.
+     * <p>
+     * 从1.42 版本开始，该方法只能接收 2的n次方个数据碎片的处理
+     * <p>
+     * Starting from version 1.42, this method can only accept the processing of data fragments to the nth power of 2
      *
      * @param fragmentationNum 您需要将文件拆分成多少数据碎片  How many data fragments do you need to split the file into
      * @return 链式
      */
     public DTMaster setFragmentationNum(int fragmentationNum) {
-        this.FragmentationNum = fragmentationNum;
+        int threshold = fragmentationNum & (fragmentationNum - 1);
+        if (threshold == 0) {
+            this.FragmentationNum = fragmentationNum;
+            this.threshold = (int) Math.ceil(Math.sqrt(fragmentationNum));
+        } else {
+            throw new RuntimeException("很抱歉，处于效率的考虑，您只能设置2^n次方个数据碎片的输出。");
+        }
         return this;
     }
 
@@ -260,7 +271,7 @@ public class DTMaster implements RW {
      * @return 链
      */
     public DTMaster setSplitrex(String splitRex) {
-        this.splitrex = splitRex;
+        this.splitRex = splitRex;
         return this;
     }
 
@@ -379,11 +390,16 @@ public class DTMaster implements RW {
      * @return 数据表的二维数组  2D array of data tables
      */
     private ArrayList<String[]> loadData(String readData) {
-        ArrayList<String[]> lines = new ArrayList<>();
-        for (String line : readData.split("\n")) {
-            lines.add(line.split(splitrex));
+        return loadData(readData.split("\n"));
+    }
+
+    private ArrayList<String[]> loadData(String[] lines) {
+        final ArrayList<String[]> linesList = new ArrayList<>(lines.length);
+        for (int i = 0, j = lines.length - 1; i < j; ++i, --j) {
+            linesList.add(lines[i].split(splitRex));
+            linesList.add(lines[j].split(splitRex));
         }
-        return lines;
+        return linesList;
     }
 
     /**
@@ -427,7 +443,7 @@ public class DTMaster implements RW {
     @Override
     public boolean op_Data() {
         byte[] datas = new byte[(int) In_File.length()];
-        RWTable<String> rwTable = new RWTable<>();
+        RWTable<String> rwTable = new RWTable<>(this.threshold);
         rwTable.setPrimaryKeyNum(primaryNum).setFragmentationNum(FragmentationNum);
         try {
             if (dataSourceFormat == DataSourceFormat.built_in) {
@@ -446,14 +462,14 @@ public class DTMaster implements RW {
                 logger.info("使用自定义组件开始载入缓冲区数据。");
             }
             try {
-                rwTable.putAllData(loadData(new String(datas)));
+                rwTable.putAllData(loadData(new String(datas).split("\n")));
                 logger.info("数据加载完成！开始进行DataTear的格式转换，构建rwTable");
             } catch (ArrayIndexOutOfBoundsException e) {
                 logger.error("您设置的primaryKey索引不存在于数据中，您的数据列数可能小于您设置的primaryIndex序号，请您检查数据表结构,并重新 setPrimaryNum()。错误索引：" + e.getLocalizedMessage(), e);
                 return false;
             }
             try {
-                writerNameManagerandData(rwTable);
+                writerNameManagerAndData(rwTable);
             } catch (ArrayIndexOutOfBoundsException e) {
                 logger.error("您设置的数据输出流在启动的时候，出现错误了哦！。" + e);
                 e.printStackTrace(System.err);
@@ -478,29 +494,27 @@ public class DTMaster implements RW {
      * @param rwTable 关联的数据碎片对象  Associated Data Fragment Object
      * @throws IOException 构造NameManager失败
      */
-    protected void writerNameManagerandData(RWTable<String> rwTable) throws IOException {
+    protected void writerNameManagerAndData(RWTable<String> rwTable) throws IOException {
         long startTimeMS = new Date().getTime();
-        String NameManager_Path = OUT_FilePath + "/NameManager.NDT";
-        StringBuilder FragmentationPaths = new StringBuilder();
+        final StringBuilder FragmentationPaths = new StringBuilder(rwTable.getFragmentationNum() + 0b10000);
         boolean isNotUdf = dataOutputFormat == DataOutputFormat.built_in;
-        DTWrite NameManagerOutStream = isNotUdf ? DTWrite.bulider().setPath(NameManager_Path).create() : new DTWrite(UDTOutputStream(NameManager_Path), NameManager_Path);
-        CountDownLatch countDownLatch = new CountDownLatch(this.FragmentationNum);
+        final CountDownLatch countDownLatch = new CountDownLatch(this.FragmentationNum + 1);
         // 通过Fragmentation编号绘制路径，同时向输出对应路径的数据碎片数据，最后标记压缩格式
         final StringBuilder writeLoad = new StringBuilder("【");
-        AtomicInteger real = new AtomicInteger();
-        AtomicInteger oknum = new AtomicInteger();
+        final AtomicInteger real = new AtomicInteger();
+        final AtomicInteger okNum = new AtomicInteger();
         for (int FragmentationN = 0; FragmentationN < rwTable.getFragmentationNum(); FragmentationN++) {
             Writer FragmentationOutputStream;
             final int finalFragmentationN = FragmentationN;
             try {
-                String FragmentationPath = OUT_FilePath + "/Fragmentation-" + finalFragmentationN + ".DT";
+                final String FragmentationPath = OUT_FilePath + "/Fragmentation-" + finalFragmentationN + ".DT";
                 FragmentationOutputStream = isNotUdf ? DTWrite.bulider().setPath(FragmentationPath).create() : new DTWrite(UDTOutputStream(FragmentationPath), FragmentationPath);
                 FragmentationPaths.append(FragmentationOutputStream.getPath()).append("&");
                 new Thread(() -> {
                     try {
                         writerFragmentation(FragmentationOutputStream, finalFragmentationN, rwTable);
                         countDownLatch.countDown();
-                        oknum.addAndGet(1);
+                        okNum.addAndGet(1);
                         writeLoad.append("#");
                     } catch (IOException e) {
                         logger.error("Fragmentation[" + finalFragmentationN + "] 输出异常，原因：" + e);
@@ -515,10 +529,27 @@ public class DTMaster implements RW {
             }
         }
         logger.info("开始绘制NameManager，并构建索引。");
-        String nameManagerData = (rwTable.superString() + FragmentationPaths + "\r\n" + "srcFile = " + In_FilePath + "\n");
-        NameManagerOutStream.write(nameManagerData.getBytes(this.charset == null ? "utf-8" : this.charset));
-        NameManagerOutStream.flush();
-        NameManagerOutStream.close();
+        final String NameManager_Path = OUT_FilePath + "/NameManager.NDT";
+        DTWrite NameManagerOutStream = isNotUdf ? DTWrite.bulider().setPath(NameManager_Path).create() : new DTWrite(UDTOutputStream(NameManager_Path), NameManager_Path);
+        new Thread(() -> {
+            String nameManagerData = (rwTable.superString() + FragmentationPaths + "\r\n" + "srcFile = " + In_FilePath + "\n");
+            try {
+                NameManagerOutStream.write(nameManagerData.getBytes(this.charset == null ? "utf-8" : this.charset));
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("NameManager绘制失败：" + e);
+            } finally {
+                try {
+                    NameManagerOutStream.flush();
+                } catch (IOException ignored) {
+                }
+                try {
+                    NameManagerOutStream.close();
+                } catch (IOException ignored) {
+                }
+            }
+            countDownLatch.countDown();
+        }).start();
         if (isUseSynchronization()) {
             try {
                 logger.info("请稍等，正在同步并发写数据中...");
@@ -529,7 +560,7 @@ public class DTMaster implements RW {
         }
         if (isUseSynchronization()) {
             logger.info("NameManager以及Fragmentation 绘制完成····················共耗时【" + (new Date().getTime() - startTimeMS) + "】毫妙。");
-            logger.info("数据碎片输出情况：" + writeLoad + "】·······················总数据碎片【" + rwTable.getFragmentationNum() + "】\t丢失X【" + real.get() + "】\t成功#【" + oknum.get() + "】");
+            logger.info("数据碎片输出情况：" + writeLoad + "】·······················总数据碎片【" + rwTable.getFragmentationNum() + "】\t丢失X【" + real.get() + "】\t成功#【" + okNum.get() + "】");
         } else {
             logger.warn("请注意，异步方式写数据将依赖于主进程生命周期，请确保主进程不会退出，否则将导致数据输出不全。");
             logger.info("NameManager绘制完成·····························共耗时【" + (new Date().getTime() - startTimeMS) + "】毫妙。");

@@ -20,7 +20,7 @@ public class NameManager<T> {
      * <p>
      * The data index range in each data block is used to locate which data block the required data exists in. The first one is the block number. The data archived in the List is the primary key of the data in this block.
      */
-    private final HashMap<Integer, HashSet<T>> dataFragmentation_Manager = new HashMap<>();
+    private final HashMap<Integer, HashSet<T>> dataFragmentation_Manager = new HashMap<>(0b11000);
 
     /**
      * 被这个NameManager管理的碎片总数，默认是三个，在输出的时候会根据这个数值生成对应的数据碎片分配，在数据读取的时候会根据这个数值生成对应的碎片数据加载线程的监控
@@ -69,10 +69,12 @@ public class NameManager<T> {
      */
     public void setFragmentationNum(int FragmentationNum) {
         this.FragmentationNum = FragmentationNum;
-        // 同步数据块信息
-        for (int n = 1; n <= FragmentationNum; n++) {
-            dataFragmentation_Manager.computeIfAbsent(n, k -> new HashSet<>());
-        }
+        new Thread(() -> {
+            // 同步数据块信息
+            for (int n = 1; n <= FragmentationNum; n++) {
+                dataFragmentation_Manager.computeIfAbsent(n, k -> new HashSet<>());
+            }
+        }).start();
     }
 
     /**
@@ -95,18 +97,17 @@ public class NameManager<T> {
     public String getAllLimit() {
         StringBuilder stringBuilder = new StringBuilder();
         int indexNumCount = dataFragmentation_Manager.size();
-        // 迭代每一个数据块
+        // 迭代每一个数据碎片
         for (int num = 0; num < indexNumCount; num++) {
             int indexNum = 1; // 单数据块中的索引编号
             // 迭代一个数据块中的所有主键
             for (T t : dataFragmentation_Manager.get(num)) {
                 stringBuilder.append("Fragmentation-").append(num)
                         .append(".DT@")
-                        .append(indexNum)
+                        .append(indexNum++)
                         .append(" = ")
                         .append(t.toString())
                         .append("\n");
-                indexNum += 1;
             }
         }
         return stringBuilder.toString();
