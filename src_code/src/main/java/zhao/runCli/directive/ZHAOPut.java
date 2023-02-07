@@ -5,6 +5,7 @@ import zhao.io.dataTear.config.ConfigBase;
 import zhao.io.dataTear.dataOp.DataOutputFormat;
 import zhao.io.dataTear.dataOp.DataSourceFormat;
 import zhao.io.dataTear.dataOp.dataTearRW.DTMaster;
+import zhao.io.dataTear.dataOp.dataTearRW.DTMasterBuilder;
 import zhao.io.dataTear.dataOp.dataTearRW.RW;
 import zhao.io.dataTear.dataOp.dataTearStreams.DTRead;
 import zhao.io.dataTear.dataOp.dataTearStreams.DT_StreamBase;
@@ -101,7 +102,7 @@ public class ZHAOPut implements Execute {
             throw new CommandParsingException("您的put格式命令不正确，请改正为：" + getHelp());
         } else {
             try {
-                DTMaster = new DTMaster(OUT_FilePath -> args[3].contains("hdfs://") || args[3].contains("HDFS://") ?
+                DTMaster = new DTMasterBuilder(OUT_FilePath -> args[3].contains("hdfs://") || args[3].contains("HDFS://") ?
                         getHDFSRWStream(args[5]).writeStream(OUT_FilePath) :
                         getLOCALRWStream(args[5]).writeStream(OUT_FilePath)
                 ).ReadFormat(DataSourceFormat.UDT)
@@ -115,7 +116,7 @@ public class ZHAOPut implements Execute {
                         )
                         .setSplitrex(TL >= 7 ? args[6] : "\\s+")
                         .setOutSplit(TL >= 8 ? args[7] : ",")
-                        .setFragmentationNum(TL >= 9 ? Integer.parseInt(args[8]) : 3);
+                        .setFragmentationNum(TL >= 9 ? Integer.parseInt(args[8]) : 3).create();
             } catch (IOException e) {
                 e.printStackTrace();
             }

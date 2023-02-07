@@ -138,7 +138,7 @@ public class DataBaseReader extends Reader {
      * <p>
      * Set the data input component. Note that this component itself implements the data flow function, and there is no need to pass data flow to this component.
      *
-     * @param inputStream 数据输入流设置  Data input stream settings
+     * @param inputReaderStream 数据输入流设置  Data input stream settings
      * @return own object, which can be used for chain programming
      * @deprecated 本组件中不需要使用任何的外界数据流，您即使设置了也不会被调用。
      * <p>
@@ -146,8 +146,8 @@ public class DataBaseReader extends Reader {
      */
     @Override
     @Deprecated
-    public Reader setInputStream(InputStream inputStream) {
-        return super.setInputStream(inputStream);
+    public Reader setInputStream(InputStream inputReaderStream) {
+        return super.setInputStream(inputReaderStream);
     }
 
     /**
@@ -339,4 +339,13 @@ public class DataBaseReader extends Reader {
         return this;
     }
 
+    @Override
+    public java.io.Reader getInputReaderStream() {
+        return super.getInputReaderStream();
+    }
+
+    @Override
+    public Reader setInputReaderStream(java.io.Reader inputReaderStream) {
+        return super.setInputReaderStream(inputReaderStream);
+    }
 }

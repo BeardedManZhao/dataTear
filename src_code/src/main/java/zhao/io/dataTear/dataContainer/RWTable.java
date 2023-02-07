@@ -91,14 +91,13 @@ public class RWTable<T> extends NameManager<T> implements RWData<T[]> {
     @Override
     public void putData(T[] data) {
         // 构建这一行数据的行编号
-        int lineNum = (int) TableCount;
+        int lineNum = (int) ++TableCount;
         // 偏移量分散余数
         int FragmentationNum = lineNum - (lineNum >> threshold << threshold);
         // 将主键数据添加到nameManager对应编号的注解列表中
         getDataFragmentation_Manager().get(FragmentationNum).add(data[primaryKeyNum]);
         // 将主键数据对应的行数据，添加到对应碎片编号的类中进行存储
         this.FragmentationMap.get(FragmentationNum).addRowData((String[]) data);
-        ++TableCount;
     }
 
     /**

@@ -12,7 +12,7 @@ public class LocalBufferStream implements DT_StreamBase {
 
     @Override
     public Reader readStream(String inPath) throws IOException {
-        return new Reader().setInputStream(new BufferedInputStream(new FileInputStream(inPath)));
+        return new Reader().setInputReaderStream(new BufferedReader(new FileReader(inPath)));
     }
 
     @Override

@@ -6,10 +6,7 @@ import zhao.io.dataTear.dataOp.dataTearRW.Reader;
 import zhao.io.ex.AnalysisMetadataException;
 import zhao.io.ex.ZHAOLackOfInformation;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -177,87 +174,120 @@ public class DTRead extends Reader {
      * @throws IOException 非NameManager，或损坏，或不可读取
      */
     private void AnalysisMetadata() throws IOException {
+        String[] mateLines;
         if (PrimaryCharacteristic != null) {
-            ByteArrayOutputStream MetaBuilder = new ByteArrayOutputStream();
-            final int FileLength = (int) super.getIn_File().length();
-            FileLenCount = FileLength > 7 ? FileLength : nameManagerInputStream.available();
-            NameManagerLength = nameManagerInputStream.available();
-            nameManagerInputStream.op_Data();
-            try {
-                MetaBuilder.write(nameManagerInputStream.getDataArray());
-            } catch (IOException | NullPointerException e) {
-                throw new AnalysisMetadataException("有尝试解析元数据，但是没有解析成功！ 异常原因：" + (nameManagerInputStream.getDataArray() == null ? "元数据的输入流没有被加载" : "元数据解析数组没有被存入数组") + "。", logger);
-            }
-            MetaBuilder.flush();
-            String[] mateLines = MetaBuilder.toString().split("\n");
-            MetaBuilder.close();
-            logger.info("读取NameManager：[" + super.getIn_FilePath() + "]·······读取大小：" + FileLenCount);
-            HashSet<String> NoFragmentations = new HashSet<>(); // 不需要的Fragmentation将会被存储进这里
-            StringBuilder stringBuilder = new StringBuilder("开始提取NameManager【");
-            // 构建并发线程负责提取键值对信息，使用4个线程同时提取 因此需要先计算出每一个线程负责多少数据
-            final int MaxThreadOffset = (mateLines.length >> 2) + mateLines.length - (mateLines.length >> 2 << 2);
-            CountDownLatch countDownLatch = new CountDownLatch(4);
-            for (int t = 0; t <= 3; t++) {
-                final int finalT = t;
-                new Thread(() -> {
-                    int offset;
-                    int length;
-                    if (finalT == 0) {
-                        offset = 0;
-                        length = MaxThreadOffset + offset;
-                    } else {
-                        offset = finalT * MaxThreadOffset + 1;
-                        length = MaxThreadOffset + offset - 1;
-                    }
-                    while (offset < length) {
-                        String mateLine = mateLines[offset++];
-                        String[] split = mateLine.split("\\s+=\\s+");
-                        String NameMetaKey = split[0];
-                        String primary_key = split.length > 1 ? split[1] : " ";
-                        String primary_blk = NameMetaKey.split("@")[0];
-                        boolean isblk = primary_blk.startsWith("Fragmentation-");
-                        boolean isadd = DataFragmentation.containsKey(primary_blk); // 数据碎片是否被添加过
-                        // 提取元数据 以及 数据碎片信息
-                        if (!isadd && isblk && PrimaryCharacteristic.filter(primary_key)) {
-                            // 如果NameManager中存在该数据碎片元数据 && 该数据碎片的主键进行初次定位 && 该数据碎片的主键进行匹配描述
-                            DataFragmentation.put(primary_blk, null);
-                            stringBuilder.append("#");
-                        } else if (!isblk) {
-                            // 如果不是数据碎片信息 就是索引 需要添加进索引列表
-                            IndexList.put(NameMetaKey, primary_key);
-                            stringBuilder.append("$");
-                        } else if (!isadd && !NoFragmentations.contains(primary_blk)) {
-                            // 如果是我们不需要的数据碎片
-                            stringBuilder.append("=");
-                            NoFragmentations.add(primary_blk);
-                        }
-                    }
-                    countDownLatch.countDown();
-                }).start();
-            }
-            try {
-                if (countDownLatch.await(this.MaxOutTimeMS, TimeUnit.MILLISECONDS)) {
-                    super.setSrcFile(IndexList.getOrDefault("srcFile", "----丢失----"));
-                    logger.info(stringBuilder + "】\n* >>> 提取到需要的数据碎片(#)【" + DataFragmentation.size() + "】\t未提取数据碎片(=)【" + NoFragmentations.size() + "】\t其它索引信息($)【" + IndexList.size() + "】");
-                    // 提取我们需要的数据碎片路径
-                    logger.debug(IndexList.toString());
-                    for (String FragmentationPath : IndexList.get("zhao.NameManager.Fragmentation.path").split("&+")) {
-                        File FragmentationFile = new File(FragmentationPath);
-                        String FragmentationName = FragmentationFile.getName();
-                        if (DataFragmentation.containsKey(FragmentationName)) {
-                            DataFragmentation.put(FragmentationName, FragmentationPath);
-                        }
-                    }
-                } else {
-                    throw new RuntimeException("解析元数据超时！！！！最大超时时间为：" + this.MaxOutTimeMS);
+            java.io.Reader inputReaderStream = nameManagerInputStream.getInputReaderStream();
+            if (inputReaderStream == null) {
+                ByteArrayOutputStream MetaBuilder = new ByteArrayOutputStream();
+                final int FileLength = (int) super.getIn_File().length();
+                FileLenCount = FileLength > 7 ? FileLength : nameManagerInputStream.available();
+                NameManagerLength = nameManagerInputStream.available();
+                nameManagerInputStream.op_Data();
+                try {
+                    MetaBuilder.write(nameManagerInputStream.getDataArray());
+                } catch (IOException | NullPointerException e) {
+                    throw new AnalysisMetadataException("有尝试解析元数据，但是没有解析成功！ 异常原因：" + (nameManagerInputStream.getDataArray() == null ? "元数据的输入流没有被加载" : "元数据解析数组没有被存入数组") + "。", logger);
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                MetaBuilder.flush();
+                mateLines = LINE_SPLIT.split(MetaBuilder.toString());
+                MetaBuilder.close();
+                logger.info("读取NameManager：[" + super.getIn_FilePath() + "]·······读取大小：" + FileLenCount);
+                HashSet<String> No_FragmentationS = new HashSet<>(); // 不需要的Fragmentation将会被存储进这里
+                StringBuilder stringBuilder = new StringBuilder("开始提取NameManager【");
+                // 构建并发线程负责提取键值对信息，使用4个线程同时提取 因此需要先计算出每一个线程负责多少数据
+                final int MaxThreadOffset = (mateLines.length >> 2) + mateLines.length - (mateLines.length >> 2 << 2);
+                CountDownLatch countDownLatch = new CountDownLatch(4);
+                for (int t = 0; t <= 3; t++) {
+                    final int finalT = t;
+                    new Thread(() -> {
+                        int offset;
+                        int length;
+                        if (finalT == 0) {
+                            offset = 0;
+                            length = MaxThreadOffset + offset;
+                        } else {
+                            offset = finalT * MaxThreadOffset + 1;
+                            length = MaxThreadOffset + offset - 1;
+                        }
+                        while (offset < length) {
+                            String mateLine = mateLines[offset++];
+                            String[] split = EQ.split(mateLine);
+                            extracted(split, stringBuilder, No_FragmentationS);
+                        }
+                        countDownLatch.countDown();
+                    }).start();
+                }
+                try {
+                    if (countDownLatch.await(this.MaxOutTimeMS, TimeUnit.MILLISECONDS)) {
+                        super.setSrcFile(IndexList.getOrDefault("srcFile", "----丢失----"));
+                        logger.info(stringBuilder + "】\n* >>> 提取到需要的数据碎片(#)【" + DataFragmentation.size() + "】\t未提取数据碎片(=)【" + No_FragmentationS.size() + "】\t其它索引信息($)【" + IndexList.size() + "】");
+                        // 提取我们需要的数据碎片路径
+                        for (String FragmentationPath : PATH_SPLIT.split(IndexList.get("zhao.NameManager.Fragmentation.path"))) {
+                            File FragmentationFile = new File(FragmentationPath);
+                            String FragmentationName = FragmentationFile.getName();
+                            if (DataFragmentation.containsKey(FragmentationName)) {
+                                DataFragmentation.put(FragmentationName, FragmentationPath);
+                            }
+                        }
+                    } else {
+                        throw new RuntimeException("解析元数据超时！！！！最大超时时间为：" + this.MaxOutTimeMS);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                BufferedReader bufferedReader = new BufferedReader(inputReaderStream);
+                HashSet<String> No_FragmentationS = new HashSet<>(); // 不需要的Fragmentation将会被存储进这里
+                StringBuilder stringBuilder = new StringBuilder("开始提取NameManager【");
+                while (bufferedReader.ready()) {
+                    String mateLine = bufferedReader.readLine();
+                    String[] split = mateLine.split("\\s+=\\s+");
+                    extracted(split, stringBuilder, No_FragmentationS);
+                }
+                bufferedReader.close();
+                // 提取我们需要的数据碎片路径
+                super.setSrcFile(IndexList.getOrDefault("srcFile", "----丢失----"));
+                for (String FragmentationPath : PATH_SPLIT.split(IndexList.get("zhao.NameManager.Fragmentation.path"))) {
+                    File FragmentationFile = new File(FragmentationPath);
+                    String FragmentationName = FragmentationFile.getName();
+                    if (DataFragmentation.containsKey(FragmentationName)) {
+                        DataFragmentation.put(FragmentationName, FragmentationPath);
+                    }
+                }
             }
         } else {
             ZHAOLackOfInformation zhaoLackOfInformation = new ZHAOLackOfInformation("您设置的信息不全哦！请对DataTearRead类的PrimaryCharacteristic进行设置，否则没有办法找到您需要的数据碎片了呢。");
             logger.error(zhaoLackOfInformation.getLocalizedMessage(), zhaoLackOfInformation);
             throw zhaoLackOfInformation;
+        }
+    }
+
+    /**
+     * 提取一个元数据的键值对到目标容器中
+     *
+     * @param split             需要被解析与提取的键值对
+     * @param stringBuilder     提取状态信息容器
+     * @param No_FragmentationS 提取结果数据容器
+     */
+    private void extracted(String[] split, StringBuilder stringBuilder, HashSet<String> No_FragmentationS) {
+        String NameMetaKey = split[0];
+        String primary_key = split.length > 1 ? split[1] : " ";
+        String primary_blk = NameMetaKey.split("@")[0];
+        boolean isBlk = primary_blk.startsWith("Fragmentation-");
+        boolean isAdd = DataFragmentation.containsKey(primary_blk); // 数据碎片是否被添加过
+        // 提取元数据 以及 数据碎片信息
+        if (!isAdd && isBlk && PrimaryCharacteristic.filter(primary_key)) {
+            // 如果NameManager中存在该数据碎片元数据 && 该数据碎片的主键进行初次定位 && 该数据碎片的主键进行匹配描述
+            DataFragmentation.put(primary_blk, null);
+            stringBuilder.append("#");
+        } else if (!isBlk) {
+            // 如果不是数据碎片信息 就是索引 需要添加进索引列表
+            IndexList.put(NameMetaKey, primary_key);
+            stringBuilder.append("$");
+        } else if (!isAdd && !No_FragmentationS.contains(primary_blk)) {
+            // 如果是我们不需要的数据碎片
+            stringBuilder.append("=");
+            No_FragmentationS.add(primary_blk);
         }
     }
 

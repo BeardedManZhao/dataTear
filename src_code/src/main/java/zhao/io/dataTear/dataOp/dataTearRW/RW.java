@@ -7,6 +7,7 @@ import zhao.io.dataTear.dataOp.dataTearStreams.hdfsStream.*;
 import zhao.io.dataTear.dataOp.dataTearStreams.localStream.*;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * 数据读写组件接口 是本系统的Reader 与 DTMaster超接口，可以用来对接第三方各种程序
@@ -15,6 +16,10 @@ import java.io.IOException;
  * @version 1.0
  */
 public interface RW {
+
+    Pattern LINE_SPLIT = Pattern.compile("\n+");
+    Pattern EQ = Pattern.compile("\\s+=\\s+");
+    Pattern PATH_SPLIT = Pattern.compile("&+");
 
     /**
      * 算法库接口

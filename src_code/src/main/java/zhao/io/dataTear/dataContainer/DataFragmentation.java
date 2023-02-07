@@ -3,6 +3,7 @@ package zhao.io.dataTear.dataContainer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 public class DataFragmentation implements RWData<String> {
+
+    protected final static Pattern COMMA_PATTERN = Pattern.compile(",");
+
     /**
      * 数据碎片的编号  The number of the data fragment
      */
@@ -71,7 +75,7 @@ public class DataFragmentation implements RWData<String> {
      */
     @Override
     public void putData(String data) {
-        lines.add(data.split(","));
+        lines.add(COMMA_PATTERN.split(data));
     }
 
     /**

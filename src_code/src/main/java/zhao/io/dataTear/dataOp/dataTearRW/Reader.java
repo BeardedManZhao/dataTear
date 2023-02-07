@@ -25,6 +25,7 @@ public class Reader extends InputStream implements RW, Product<Reader> {
     private String In_FilePath;
     private String srcFile;
     private InputStream inputStream;
+    private java.io.Reader inputReaderStream;
     private byte[] dataArray;
 
     /**
@@ -97,11 +98,20 @@ public class Reader extends InputStream implements RW, Product<Reader> {
     /**
      * 通过文件对象的形式，设置需要读取的文件，setIn_File 与 setIn_Path 与 setInputStream 一般来说要设置其中的一个，具体是否需要设置，还需要看实现的子类们是如何获取
      *
-     * @param inputStream 数据输入流设置
+     * @param inputReaderStream 数据输入流设置
      * @return 链
      */
-    public Reader setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public Reader setInputStream(InputStream inputReaderStream) {
+        this.inputStream = inputReaderStream;
+        return this;
+    }
+
+    public java.io.Reader getInputReaderStream() {
+        return inputReaderStream;
+    }
+
+    public Reader setInputReaderStream(java.io.Reader inputReaderStream) {
+        this.inputReaderStream = inputReaderStream;
         return this;
     }
 
@@ -169,8 +179,10 @@ public class Reader extends InputStream implements RW, Product<Reader> {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             IOUtils.copy(inputStream, byteArrayOutputStream);
+            byteArrayOutputStream.flush();
             dataArray = byteArrayOutputStream.toByteArray();
             logger.info("DataTear数据输入流加载数据到环形缓冲区。");
+            byteArrayOutputStream.close();
             return true;
         } catch (IOException e) {
             logger.error("数据加载没有成功，异常原因：" + e);
@@ -223,4 +235,6 @@ public class Reader extends InputStream implements RW, Product<Reader> {
     public int available() throws IOException {
         return inputStream.available();
     }
+
+    protected String readLine() {return null;}
 }
